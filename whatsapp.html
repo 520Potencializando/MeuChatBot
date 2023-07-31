@@ -77,6 +77,18 @@
       padding: 10px;
     }
 
+    .today-balloon {
+      background-color: #E5E5E5;
+      color: #5f5f5f;
+      border-radius: 10px;
+      padding: 8px 15px;
+      font-size: 14px;
+      box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+      width: 60px;
+      text-align: center;
+      margin: auto;
+    }
+
     .user-message-container {
       display: flex;
       justify-content: flex-end;
@@ -168,13 +180,95 @@
     }
 
     .contact-message .contact-message-time {
-        font-size: 10px;
-        color: #999999;
-        bottom: -8px;
-        position: relative;
-        left: 3px;
+      font-size: 10px;
+      color: #999999;
+      bottom: -8px;
+      position: relative;
+      left: 3px;
     }
 
+    .contact-audio-container {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 10px;
+    }
+
+    .contact-audio-message {
+      align-self: flex-start;
+      background-color: #FFFFFF;
+      color: #000000;
+      border-radius: 0px 10px 10px 10px;
+      padding: 8px;
+      font-size: 14px;
+      line-height: 1.4;
+      position: relative;
+      height: 70px;
+    }
+
+    .contact-audio-message::before {
+      content: "";
+      position: absolute;
+      top: 0px;
+      left: -5px;
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 10px solid #FFFFFF;
+    }
+
+    .contact-audio-message .message-time {
+      font-size: 10px;
+      color: #999999;
+      bottom: -5px;
+      position: relative;
+      left: 10px;
+    }
+
+    .contact-audio-message .check-icon {
+      display: none;
+    }
+
+    .contact-audio-message .contact-message-time {
+      font-size: 10px;
+      color: #999999;
+      bottom: 14px;
+      position: relative;
+      left: 225px;
+    }
+
+    .contact-audio-message .audio-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .contact-audio-message .audio-container audio {
+      margin-right: 10px;
+    }
+
+    audio {
+      width: 250px;
+      height: 37px;
+      top: 0;
+      padding-top: 0;
+      position: relative;
+      top: -7px;
+    }
+
+    .right-button-container {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 10px;
+    }
+
+    .right-button {
+      background-color: #008069;
+      color: #FFFFFF;
+      border-radius: 10px;
+      padding: 8px 15px;
+      font-size: 14px;
+      border: none;
+    }
   </style>
 </head>
 <body>
@@ -200,6 +294,8 @@
   </div>
 
   <div class="container">
+    <div class="today-balloon">Hoje</div>
+
     <div class="user-message-container">
       <div class="user-message">
         Olá!
@@ -214,13 +310,15 @@
         <span class="contact-message-time"></span>
       </div>
     </div>
+
     <div class="user-message-container">
       <div class="user-message">
-        Opa... como que ta?
+        Opa... como que tá?
         <span class="message-time"></span>
         <span class="check-icon"></span>
       </div>
     </div>
+
     <div class="user-message-container">
       <div class="user-message">
         Te chamei pra encher o saco
@@ -229,23 +327,50 @@
       </div>
     </div>
 
-    <!-- Adicione mais mensagens aqui -->
+    <div class="contact-audio-container">
+      <div class="contact-audio-message">
+        <div class="audio-container">
+          <audio src="chat01.mp3" controls></audio>
+          <div class="contact-photo" style="margin-right: 0px; width: 50px; height: 50px"></div>
+        </div>
+        <span class="contact-message-time"></span>
+      </div>
+    </div>
 
+    <div class="right-button-container">
+      <button class="right-button">Quero ver agora</button>
+    </div>
   </div>
 
   <script>
     var userMessages = document.getElementsByClassName('user-message');
     var contactMessages = document.getElementsByClassName('contact-message');
+    var contactAudioMessages = document.getElementsByClassName('contact-audio-message');
     var currentDateTime = new Date();
     var currentTimeString = currentDateTime.getHours() + ':' + ('0' + currentDateTime.getMinutes()).slice(-2);
 
     for (var i = 0; i < userMessages.length; i++) {
-      userMessages[i].querySelector('.message-time').innerText = currentTimeString;
+        userMessages[i].querySelector('.message-time').innerText = currentTimeString;
     }
 
     for (var i = 0; i < contactMessages.length; i++) {
-      contactMessages[i].querySelector('.contact-message-time').innerText = currentTimeString;
+        contactMessages[i].querySelector('.contact-message-time').innerText = currentTimeString;
+    }
+
+    for (var i = 0; i < contactAudioMessages.length; i++) {
+        contactAudioMessages[i].querySelector('.contact-message-time').innerText = currentTimeString;
     }
   </script>
+  <script>
+    // Função que será executada quando o evento "beforeunload" for acionado
+    function impedirAtualizacao() {
+        // Não retorna nada para impedir a atualização sem aviso
+        console.log("Opa");
+    }
+
+    // Adiciona o evento "beforeunload" ao objeto "window"
+    window.addEventListener('beforeunload', impedirAtualizacao);
+  </script>
+  
 </body>
 </html>
