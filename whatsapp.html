@@ -17,12 +17,17 @@
     }
 
     .top-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
       background-color: #008069;
       color: #FFFFFF;
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 10px;
+      z-index: 1000;
     }
 
     .contact-info {
@@ -75,6 +80,7 @@
 
     .container {
       padding: 10px;
+      margin-top: 60px;
     }
 
     .today-balloon {
@@ -258,17 +264,194 @@
     .right-button-container {
       display: flex;
       justify-content: flex-end;
-      margin-top: 10px;
+      margin-bottom: 10px;
     }
 
     .right-button {
-      background-color: #008069;
+      background-image: linear-gradient(45deg, #008069, #7b7b7b);
       color: #FFFFFF;
+      font-weight: bold;
       border-radius: 10px;
       padding: 8px 15px;
       font-size: 14px;
       border: none;
+      display: flex;
+      align-items: center;
     }
+
+    .right-button img {
+      margin-left: 5px;
+      width: 30px;
+    }
+
+    .contact-image-message {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 10px;
+      max-width: 90%;
+    }
+
+    .contact-balloon {
+      position: relative;
+      background-color: #FFFFFF;
+      color: #000000;
+      border-radius: 10px 10px 10px 10px;
+      padding: 8px;
+      font-size: 14px;
+      line-height: 1.4;
+      width: auto;
+    }
+
+    .contact-balloon::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -10px;
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 10px solid #FFFFFF;
+    }
+
+    .contact-balloon img {
+      max-width: 100%;
+      display: block;
+      border-radius: 10px 10px 10px 10px;
+    }
+
+    .message-time {
+      font-size: 10px;
+      color: #999999;
+      bottom: -5px;
+      position: relative;
+      left: 10px;
+    }
+
+    .contact-video-message {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 10px;
+      max-width: 90%;
+      position: relative;
+      border-radius: 10px;
+      background-color: #fff;
+    }
+
+    .contact-video-balloon {
+      position: relative;
+      background-color: #FFFFFF;
+      color: #000000;
+      border-radius: 10px 10px 10px 10px;
+      padding: 8px;
+      font-size: 14px;
+      line-height: 1.4;
+      width: auto;
+    }
+
+    .contact-video-balloon::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -10px;
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 10px solid #FFFFFF;
+    }
+
+    .contact-video-balloon iframe {
+      max-width: 100%;
+      display: block;
+      border-radius: 10px 10px 10px 10px;
+    }
+
+    .contact-message-time {
+      font-size: 10px;
+      color: #999999;
+      bottom: -5px;
+      position: relative;
+      left: 10px;
+    }
+
+    /* Estilo para o novo balão do usuário com campo de entrada de texto e botão de enviar */
+    .user-input-container {
+      display: flex;
+      flex-direction: column; /* Empilhar os elementos verticalmente */
+      align-items: flex-end; /* Alinhar à direita */
+      margin-bottom: 10px;
+    }
+
+    .user-message {
+      align-self: flex-end;
+      background-color: #DCF8C6;
+      color: #000000;
+      border-radius: 10px 0px 10px 10px;
+      padding: 8px;
+      font-size: 14px;
+      line-height: 1.4;
+      position: relative;      
+      margin-bottom: 10px;
+    }
+
+    .user-message input {
+      border: none;
+      outline: none;
+      font-size: 15px;
+      width: 100%;
+      padding: 0px 5px;
+      background-color: transparent;
+      font-weight: 600;
+      color: black;
+    }
+
+    /* Estilo para o novo balão de link do contato */
+    .contact-link-balloon {
+      position: relative;
+      background-color: #FFFFFF;
+      color: #000000;
+      border-radius: 10px 10px 10px 10px;
+      padding: 8px;
+      font-size: 14px;
+      line-height: 1.4;
+      width: auto;
+      max-width: 90%; /* Tamanho máximo do balão de link */
+    }
+
+    .contact-link-balloon::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -10px;
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 10px solid #FFFFFF;
+    }
+
+    .contact-link-balloon img {
+      max-width: 60px; /* Tamanho reduzido da imagem */
+      border-radius: 10px 10px 10px 10px;
+      margin-bottom: 5px; /* Espaçamento entre a imagem e o texto */
+      float: left;
+      margin-right: 10px;
+    }
+
+    .contact-link-text {
+      font-size: 18px; /* Tamanho maior da fonte para o texto */
+      font-weight: 700;
+    }
+
+    .contact-link-balloon span{
+      color: #0093db;
+    }
+
+    .contact-link-balloon a{
+      text-decoration: none;
+    }
+
   </style>
 </head>
 <body>
@@ -294,8 +477,10 @@
   </div>
 
   <div class="container">
+    <!-- BALÃO FIXO HOJE -->
     <div class="today-balloon">Hoje</div>
 
+    <!-- BALÃO DE MENSAGEM-CONTATO -->
     <div class="user-message-container">
       <div class="user-message">
         Olá!
@@ -304,6 +489,7 @@
       </div>
     </div>
 
+    <!-- BALÃO DE MENSAGEM-USUARIO -->
     <div class="contact-message-container">
       <div class="contact-message">
         Olá, como posso ajudar?
@@ -311,35 +497,57 @@
       </div>
     </div>
 
-    <div class="user-message-container">
-      <div class="user-message">
-        Opa... como que tá?
-        <span class="message-time"></span>
-        <span class="check-icon"></span>
-      </div>
-    </div>
-
-    <div class="user-message-container">
-      <div class="user-message">
-        Te chamei pra encher o saco
-        <span class="message-time"></span>
-        <span class="check-icon"></span>
-      </div>
-    </div>
-
+    <!-- BALÃO DE ÁUDIO-CONTATO -->
     <div class="contact-audio-container">
       <div class="contact-audio-message">
         <div class="audio-container">
-          <audio src="chat01.mp3" controls></audio>
+          <audio src="chat01.mp3" controls controlslist="nodownload nofullscreen" preload="metadata"></audio>
           <div class="contact-photo" style="margin-right: 0px; width: 50px; height: 50px"></div>
         </div>
         <span class="contact-message-time"></span>
       </div>
     </div>
 
+    <!-- BOTÃO DE AÇÃO-USUARIO+FUNÇÃO PARA MOSTRAR O BALÃO DE MENSAGEM -->
     <div class="right-button-container">
-      <button class="right-button">Quero ver agora</button>
+      <button class="right-button" onclick="exibirBalaoUsuario()" id="right-button">Quero ver agora<img src="send.png" alt="Enviar"></button>
     </div>
+
+    <!-- BALÃO DE IMAGEM-CONTATO -->
+    <div class="contact-image-message">
+      <div class="contact-balloon">
+        <img src="img01.jpg">
+        <span class="contact-message-time"></span>
+      </div>
+    </div>
+
+    <!-- BALÃO DE VÍDEO-CONTATO -->
+    <div class="contact-video-message">
+    <div class="contact-balloon"></div>
+
+      <div id="vid_63f6c7db930052000bb73c3f" style="border-radius: 10px; position:relative;width:100%;padding: 125% 0 0;left: -9px"><img id="thumb_63f6c7db930052000bb73c3f" src="https://images.converteai.net/cbcea761-4024-48ee-b94c-332740b304c5/players/63f6c7db930052000bb73c3f/thumbnail.jpg" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block;"><div id="backdrop_63f6c7db930052000bb73c3f" style="position:absolute;top:0;width:100%;height:100%;-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);"></div></div><script type="text/javascript" id="scr_63f6c7db930052000bb73c3f">var s=document.createElement("script");s.src="https://scripts.converteai.net/cbcea761-4024-48ee-b94c-332740b304c5/players/63f6c7db930052000bb73c3f/player.js",s.async=!0,document.head.appendChild(s);</script>
+    </div>
+
+    <!-- BALÃO DE INPUT DE TEXTO-USUARIO -->
+    <div class="user-input-container">
+      <div class="user-message">
+        <input type="text" placeholder="Digite seu nome">
+      </div>
+      <button class="right-button" onclick="enviarNome()">Enviar<img src="send.png" alt="Enviar"></button>
+    </div>
+
+    <!-- BALÃO DE LINK-CONTATO -->
+    <div class="contact-message-container">
+      <div class="contact-link-balloon">
+        <a href="">
+          <img src="preview01.png">
+          <span class="contact-link-text">Ultimas vagas! Clique Aqui!</span>
+          <span>https://produtosavador.com.br</span>
+        </a>
+        <span class="contact-message-time"></span>
+      </div>
+    </div>
+    
   </div>
 
   <script>
@@ -360,17 +568,65 @@
     for (var i = 0; i < contactAudioMessages.length; i++) {
         contactAudioMessages[i].querySelector('.contact-message-time').innerText = currentTimeString;
     }
-  </script>
-  <script>
-    // Função que será executada quando o evento "beforeunload" for acionado
-    function impedirAtualizacao() {
-        // Não retorna nada para impedir a atualização sem aviso
-        console.log("Opa");
-    }
 
-    // Adiciona o evento "beforeunload" ao objeto "window"
-    window.addEventListener('beforeunload', impedirAtualizacao);
+    function exibirBalaoUsuario() {
+      var rightButton = document.getElementById('right-button');
+      rightButton.style.display = 'none';
+
+      var container = document.getElementsByClassName('container')[0];
+      var userMessageContainer = document.createElement('div');
+      userMessageContainer.className = 'user-message-container';
+
+      var balaoUsuario = document.createElement('div');
+      balaoUsuario.className = 'user-message';
+      balaoUsuario.innerText = 'Quero ver agora';
+      var messageTime = document.createElement('span');
+      messageTime.className = 'message-time';
+      var currentDateTime = new Date();
+      var currentTimeString = currentDateTime.getHours() + ':' + ('0' + currentDateTime.getMinutes()).slice(-2);
+      messageTime.innerText = currentTimeString;
+      var checkIcon = document.createElement('span');
+      checkIcon.className = 'check-icon';
+
+      balaoUsuario.appendChild(messageTime);
+      balaoUsuario.appendChild(checkIcon);
+      userMessageContainer.appendChild(balaoUsuario);
+      container.appendChild(userMessageContainer);
+    }
   </script>
-  
+    <script>
+      function enviarNome() {
+      var nomeDigitado = document.querySelector('.user-input-container input').value;
+
+      // Remover o balão de input e o botão "Enviar"
+      var userInputElement = document.querySelector('.user-input-container');
+      userInputElement.style.display = 'none';
+
+      // Criar um novo balão de texto do usuário com o nome digitado
+      var container = document.querySelector('.container');
+
+      var userMessageContainer = document.createElement('div');
+      userMessageContainer.className = 'user-message-container';
+
+      var balaoUsuario = document.createElement('div');
+      balaoUsuario.className = 'user-message';
+      balaoUsuario.innerText = nomeDigitado;
+
+      var messageTime = document.createElement('span');
+      messageTime.className = 'message-time';
+      var currentDateTime = new Date();
+      var currentTimeString = currentDateTime.getHours() + ':' + ('0' + currentDateTime.getMinutes()).slice(-2);
+      messageTime.innerText = currentTimeString;
+
+      var checkIcon = document.createElement('span');
+      checkIcon.className = 'check-icon';
+
+      balaoUsuario.appendChild(messageTime);
+      balaoUsuario.appendChild(checkIcon);
+      userMessageContainer.appendChild(balaoUsuario);
+      container.appendChild(userMessageContainer);
+    }
+  </script>
+
 </body>
 </html>
