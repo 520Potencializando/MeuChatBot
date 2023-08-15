@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+    }
+
+    body {
+      font-family: "Arial", sans-serif;
+      background-image: url('bg.png');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .top-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #008069;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px;
+      z-index: 1000;
+    }
+
+    .contact-info {
+      display: flex;
+      align-items: center;
+    }
+
+    .contact-photo {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+      background-image: url('perfil.jpg');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .user-info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .contact-name {
+      font-weight: bold;
+    }
+
+    .online-indicator {
+      font-size: 12px;
+      color: #fff;
+    }
+
+    .action-buttons {
+      display: flex;
+      align-items: center;
+    }
+
+    .action-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      margin-left: 10px;
+    }
+
+    .action-button img {
+      width: 25px;
+    }
+
+    .container {
+      padding: 10px;
+      margin-top: 60px;
+    }
+
+    .today-balloon {
+      background-color: #E5E5E5;
+      color: #5f5f5f;
+      border-radius: 10px;
+      padding: 8px 15px;
+      font-size: 14px;
+      box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+      width: 60px;
+      text-align: center;
+      margin: auto;
+      margin-bottom: 10px;
+    }
+
+    .user-message-container {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 5px;
+    }
+
+    .contact-message-container {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 10px;
+    }
+
+    .user-message {
+      align-self: flex-end;
+      background-color: #DCF8C6;
+      color: #000000;
+      border-radius: 10px 0px 10px 10px;
+      padding: 8px;
+      font-size: 14px;
+      line-height: 1.4;
+      position: relative;
+    }
+
+    .user-message::before {
+      content: "";
+      position: absolute;
+      bottom: 26px;
+      right: -5px;
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 10px solid #DCF8C6;
+    }
+
+    .user-message .message-time {
+      font-size: 10px;
+      color: #999999;
+      bottom: -8px;
+      position: relative;
+      left: 10px;
+    }
+
+    .user-message .check-icon {
+      width: 14px;
+      height: 10px;
+      background-image: url('check.png');
+      background-repeat: no-repeat;
+      background-size: cover;
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 7px;
+      margin-bottom: -15px;
+    }
+
+    .contact-message {
+      align-self: flex-start;
+      background-color: #FFFFFF;
+      color: #000000;
+      border-radius: 0px 10px 10px 10px;
+      padding: 8px;
+      font-size: 14px;
+      line-height: 1.4;
+      position: relative;
+      margin-left: 5px;
+    }
+
+    .contact-message::before {
+      content: "";
+      position: absolute;
+      top: 0px;
+      left: -5px;
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 10px solid #FFFFFF;
+    }
+
+    .contact-message .message-time {
+      font-size: 10px;
+      color: #999999;
+      bottom: -5px;
+      position: relative;
+      left: 10px;
+    }
+
+    .contact-message .check-icon {
+      display: none;
+    }
+
+    .contact-message .contact-message-time {
+      font-size: 10px;
+      color: #999999;
+      bottom: -8px;
+      position: relative;
+      left: 3px;
+    }
+
+    .contact-audio-container {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 10px;
+    }
+
+    .contact-audio-message {
+      align-self: flex-start;
+      background-color: #FFFFFF;
+      color: #000000;
+      border-radius: 0px 10px 10px 10px;
+      padding: 8px;
+      font-size: 14px;
+      line-height: 1.4;
+      position: relative;
+      height: 70px;
+    }
+
+    .contact-audio-message::before {
+      content: "";
+      position: absolute;
+      top: 0px;
+      left: -5px;
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 10px solid #FFFFFF;
+    }
+
+    .contact-audio-message .message-time {
+      font-size: 10px;
+      color: #999999;
+      bottom: -5px;
+      position: relative;
+      left: 10px;
+    }
+
+    .contact-audio-message .check-icon {
+      display: none;
+    }
+
+    .contact-audio-message .contact-message-time {
+      font-size: 10px;
+      color: #999999;
+      bottom: 14px;
+      position: relative;
+      left: 225px;
+    }
+
+    .contact-audio-message .audio-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .contact-audio-message .audio-container audio {
+      margin-right: 10px;
+    }
+
+    audio {
+      width: 250px;
+      height: 37px;
+      top: 0;
+      padding-top: 0;
+      position: relative;
+      top: -7px;
+    }
+
+    .right-button-container {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 10px;
+    }
+
+    .right-button {
+      background-image: linear-gradient(45deg, #008069, #7b7b7b);
+      color: #FFFFFF;
+      font-weight: bold;
+      border-radius: 10px;
+      padding: 8px 15px;
+      font-size: 14px;
+      border: none;
+      display: flex;
+      align-items: center;
+    }
+
+    .right-button img {
+      margin-left: 5px;
+      width: 30px;
+    }
+
+    .contact-image-message {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 10px;
+      max-width: 90%;
+    }
+
+    .contact-balloon {
+      position: relative;
+      background-color: #FFFFFF;
+      color: #000000;
+      border-radius: 10px 10px 10px 10px;
+      padding: 8px;
+      font-size: 14px;
+      line-height: 1.4;
+      width: auto;
+    }
+
+    .contact-balloon::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -10px;
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 10px solid #FFFFFF;
+    }
+
+    .contact-balloon img {
+      max-width: 100%;
+      display: block;
+      border-radius: 10px 10px 10px 10px;
+    }
+
+    .message-time {
+      font-size: 10px;
+      color: #999999;
+      bottom: -5px;
+      position: relative;
+      left: 10px;
+    }
+
+    .contact-video-message {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 10px;
+      max-width: 90%;
+      position: relative;
+      border-radius: 10px;
+      background-color: #fff;
+    }
+
+    .contact-video-balloon {
+      position: relative;
+      background-color: #FFFFFF;
+      color: #000000;
+      border-radius: 10px 10px 10px 10px;
+      padding: 8px;
+      font-size: 14px;
+      line-height: 1.4;
+      width: auto;
+    }
+
+    .contact-video-balloon::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -10px;
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 10px solid #FFFFFF;
+    }
+
+    .contact-video-balloon iframe {
+      max-width: 100%;
+      display: block;
+      border-radius: 10px 10px 10px 10px;
+    }
+
+    .contact-message-time {
+      font-size: 10px;
+      color: #999999;
+      bottom: -5px;
+      position: relative;
+      left: 10px;
+    }
+
+    /* Estilo para o novo balão do usuário com campo de entrada de texto e botão de enviar */
+    .user-input-container {
+      display: flex;
+      flex-direction: column; /* Empilhar os elementos verticalmente */
+      align-items: flex-end; /* Alinhar à direita */
+      margin-bottom: 10px;
+    }
+
+    .user-message {
+      align-self: flex-end;
+      background-color: #DCF8C6;
+      color: #000000;
+      border-radius: 10px 0px 10px 10px;
+      padding: 8px;
+      font-size: 14px;
+      line-height: 1.4;
+      position: relative;      
+      margin-bottom: 10px;
+    }
+
+    .user-message input {
+      border: none;
+      outline: none;
+      font-size: 15px;
+      width: 100%;
+      padding: 0px 5px;
+      background-color: transparent;
+      font-weight: 600;
+      color: black;
+    }
+
+    /* Estilo para o novo balão de link do contato */
+    .contact-link-balloon {
+      position: relative;
+      background-color: #FFFFFF;
+      color: #000000;
+      border-radius: 10px 10px 10px 10px;
+      padding: 8px;
+      font-size: 14px;
+      line-height: 1.4;
+      width: auto;
+      max-width: 90%; /* Tamanho máximo do balão de link */
+    }
+
+    .contact-link-balloon::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -10px;
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 10px solid #FFFFFF;
+    }
+
+    .contact-link-balloon img {
+      max-width: 60px; /* Tamanho reduzido da imagem */
+      border-radius: 10px 10px 10px 10px;
+      margin-bottom: 5px; /* Espaçamento entre a imagem e o texto */
+      float: left;
+      margin-right: 10px;
+    }
+
+    .contact-link-text {
+      font-size: 18px; /* Tamanho maior da fonte para o texto */
+      font-weight: 700;
+    }
+
+    .contact-link-balloon span{
+      color: #0093db;
+    }
+
+    .contact-link-balloon a{
+      text-decoration: none;
+    }
+
+    .oculto {
+      display: none;
+    }
+
+  </style>
+</head>
+<body onload="exibirDigitando()">
+  <div class="top-bar">
+    <div class="contact-info">
+      <div class="contact-photo"></div>
+      <div class="user-info">
+        <div class="contact-name">Gabi Tavares</div>
+        <div class="online-indicator">Online</div>
+      </div>
+    </div>
+    <div class="action-buttons">
+      <div class="action-button">
+        <img src="clips.png" alt="Botão 1">
+      </div>
+      <div class="action-button">
+        <img src="tel.png" alt="Botão 2">
+      </div>
+      <div class="action-button">
+        <img src="dots2.png" alt="Botão 3">
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- BALÃO FIXO HOJE -->
+    <div class="today-balloon">Hoje</div>
+
+
+    <!-- BALÃO DE MENSAGEM-CONTATO -->
+    <div class="contact-message-container">
+      <div class="contact-message">
+        oi amore, fala comigo
+        <span class="contact-message-time"></span>
+      </div>
+    </div>
+
+    <!-- BALÃO DE ÁUDIO-CONTATO -->
+    <div class="contact-audio-container">
+      <div class="contact-audio-message">
+        <div class="audio-container">
+          <audio src="chat01.mp3" controls controlslist="nodownload nofullscreen" preload="metadata"></audio>
+          <div class="contact-photo" style="margin-right: 0px; width: 50px; height: 50px"></div>
+        </div>
+        <span class="contact-message-time"></span>
+      </div>
+    </div>
+
+    <!-- BOTÃO DE AÇÃO-USUARIO+FUNÇÃO PARA MOSTRAR O BALÃO DE MENSAGEM -->
+    <div class="right-button-container" id="right-button">
+      <button class="right-button" onclick="botao01()" >Siim😈<img src="send.png" alt="Enviar"></button>
+    </div>
+
+    <!-- BOTÃO DE AÇÃO-USUARIO+FUNÇÃO PARA MOSTRAR O BALÃO DE MENSAGEM -->
+
+
+    <!-- BALÃO DE MENSAGEM-CONTATO -->
+    
+
+    <!-- BALÃO DE IMAGEM-CONTATO -->
+    
+
+    <!-- BALÃO DE MENSAGEM-CONTATO -->
+    
+
+    <!-- BOTÃO DE AÇÃO-USUARIO+FUNÇÃO PARA MOSTRAR O BALÃO DE MENSAGEM -->
+    
+
+    <!-- BALÃO DE MENSAGEM-CONTATO -->
+
+
+    <!-- BOTÃO DE AÇÃO-USUARIO+FUNÇÃO PARA MOSTRAR O BALÃO DE MENSAGEM -->        
+    
+  </div>
+
+
+  <script>
+    // BOTÃO 01
+    var userMessages = document.getElementsByClassName('user-message');
+    var contactMessages = document.getElementsByClassName('contact-message');
+    var contactAudioMessages = document.getElementsByClassName('contact-audio-message');
+    var currentDateTime = new Date();
+    var currentTimeString = currentDateTime.getHours() + ':' + ('0' + currentDateTime.getMinutes()).slice(-2);
+
+    for (var i = 0; i < userMessages.length; i++) {
+        userMessages[i].querySelector('.message-time').innerText = currentTimeString;
+    }
+
+    for (var i = 0; i < contactMessages.length; i++) {
+        contactMessages[i].querySelector('.contact-message-time').innerText = currentTimeString;
+    }
+
+    for (var i = 0; i < contactAudioMessages.length; i++) {
+        contactAudioMessages[i].querySelector('.contact-message-time').innerText = currentTimeString;
+    }
+
+    function botao01() {
+
+      seguirBotao01();
+
+      var rightButton = document.getElementById('right-button');
+      rightButton.style.display = 'none';
+
+      var container = document.getElementsByClassName('container')[0];
+      var userMessageContainer = document.createElement('div');
+      userMessageContainer.className = 'user-message-container';
+
+      var balaoUsuario = document.createElement('div');
+      balaoUsuario.className = 'user-message';
+      balaoUsuario.innerText = 'Siim😈';
+      var messageTime = document.createElement('span');
+      messageTime.className = 'message-time';
+      var currentDateTime = new Date();
+      var currentTimeString = currentDateTime.getHours() + ':' + ('0' + currentDateTime.getMinutes()).slice(-2);
+      messageTime.innerText = currentTimeString;
+      var checkIcon = document.createElement('span');
+      checkIcon.className = 'check-icon';
+
+      balaoUsuario.appendChild(messageTime);
+      balaoUsuario.appendChild(checkIcon);
+      userMessageContainer.appendChild(balaoUsuario);
+      container.appendChild(userMessageContainer);
+    }
+  </script>
+  <script>
+    // BOTÃO 02
+    var userMessages = document.getElementsByClassName('user-message');
+    var contactMessages = document.getElementsByClassName('contact-message');
+    var contactAudioMessages = document.getElementsByClassName('contact-audio-message');
+    var currentDateTime = new Date();
+    var currentTimeString = currentDateTime.getHours() + ':' + ('0' + currentDateTime.getMinutes()).slice(-2);
+
+    for (var i = 0; i < userMessages.length; i++) {
+        userMessages[i].querySelector('.message-time').innerText = currentTimeString;
+    }
+
+    for (var i = 0; i < contactMessages.length; i++) {
+        contactMessages[i].querySelector('.contact-message-time').innerText = currentTimeString;
+    }
+
+    for (var i = 0; i < contactAudioMessages.length; i++) {
+        contactAudioMessages[i].querySelector('.contact-message-time').innerText = currentTimeString;
+    }
+
+    function botao02() {
+
+      seguirBotao02();
+
+      var rightButton2 = document.getElementById('right-button2');
+      rightButton2.style.display = 'none';
+
+      var container = document.getElementsByClassName('container')[0];
+      var userMessageContainer = document.createElement('div');
+      userMessageContainer.className = 'user-message-container';
+
+      var balaoUsuario = document.createElement('div');
+      balaoUsuario.className = 'user-message';
+      balaoUsuario.innerText = 'Estou sozinho 😈';
+      var messageTime = document.createElement('span');
+      messageTime.className = 'message-time';
+      var currentDateTime = new Date();
+      var currentTimeString = currentDateTime.getHours() + ':' + ('0' + currentDateTime.getMinutes()).slice(-2);
+      messageTime.innerText = currentTimeString;
+      var checkIcon = document.createElement('span');
+      checkIcon.className = 'check-icon';
+
+      balaoUsuario.appendChild(messageTime);
+      balaoUsuario.appendChild(checkIcon);
+      userMessageContainer.appendChild(balaoUsuario);
+      container.appendChild(userMessageContainer);
+    }
+  </script>
+  <script>
+    // BOTÃO Esquecido (Mostra mais)
+    var userMessages = document.getElementsByClassName('user-message');
+    var contactMessages = document.getElementsByClassName('contact-message');
+    var contactAudioMessages = document.getElementsByClassName('contact-audio-message');
+    var currentDateTime = new Date();
+    var currentTimeString = currentDateTime.getHours() + ':' + ('0' + currentDateTime.getMinutes()).slice(-2);
+
+    for (var i = 0; i < userMessages.length; i++) {
+        userMessages[i].querySelector('.message-time').innerText = currentTimeString;
+    }
+
+    for (var i = 0; i < contactMessages.length; i++) {
+        contactMessages[i].querySelector('.contact-message-time').innerText = currentTimeString;
+    }
+
+    for (var i = 0; i < contactAudioMessages.length; i++) {
+        contactAudioMessages[i].querySelector('.contact-message-time').innerText = currentTimeString;
+    }
+
+    function botaoEsquecido() {
+
+      
+
+      var rightButtonEsquecido = document.getElementById('right-button-esquecido');
+      rightButtonEsquecido.style.display = 'none';
+
+      var container = document.getElementsByClassName('container')[0];
+      var userMessageContainer = document.createElement('div');
+      userMessageContainer.className = 'user-message-container';
+
+      var balaoUsuario = document.createElement('div');
+      balaoUsuario.className = 'user-message';
+      balaoUsuario.innerText = 'Delícia!🤤 Mostra mais...';
+      var messageTime = document.createElement('span');
+      messageTime.className = 'message-time';
+      var currentDateTime = new Date();
+      var currentTimeString = currentDateTime.getHours() + ':' + ('0' + currentDateTime.getMinutes()).slice(-2);
+      messageTime.innerText = currentTimeString;
+      var checkIcon = document.createElement('span');
+      checkIcon.className = 'check-icon';
+
+      balaoUsuario.appendChild(messageTime);
+      balaoUsuario.appendChild(checkIcon);
+      userMessageContainer.appendChild(balaoUsuario);
+      container.appendChild(userMessageContainer);
+
+      seguirBotao03();
+    }
+  </script>
+  <script>
+    // BOTÃO 03
+    var userMessages = document.getElementsByClassName('user-message');
+    var contactMessages = document.getElementsByClassName('contact-message');
+    var contactAudioMessages = document.getElementsByClassName('contact-audio-message');
+    var currentDateTime = new Date();
+    var currentTimeString = currentDateTime.getHours() + ':' + ('0' + currentDateTime.getMinutes()).slice(-2);
+
+    for (var i = 0; i < userMessages.length; i++) {
+        userMessages[i].querySelector('.message-time').innerText = currentTimeString;
+    }
+
+    for (var i = 0; i < contactMessages.length; i++) {
+        contactMessages[i].querySelector('.contact-message-time').innerText = currentTimeString;
+    }
+
+    for (var i = 0; i < contactAudioMessages.length; i++) {
+        contactAudioMessages[i].querySelector('.contact-message-time').innerText = currentTimeString;
+    }
+
+    function botao03() {
+      var rightButton3 = document.getElementById('right-button3');
+      rightButton3.style.display = 'none';
+      var rightButton4 = document.getElementById('right-button4');
+      rightButton4.style.display = 'none';
+      var rightButton5 = document.getElementById('right-button5');
+      rightButton5.style.display = 'none';
+
+      var container = document.getElementsByClassName('container')[0];
+      var userMessageContainer = document.createElement('div');
+      userMessageContainer.className = 'user-message-container';
+
+      var balaoUsuario = document.createElement('div');
+      balaoUsuario.className = 'user-message';
+      balaoUsuario.innerText = 'Dando gostoso';
+      var messageTime = document.createElement('span');
+      messageTime.className = 'message-time';
+      var currentDateTime = new Date();
+      var currentTimeString = currentDateTime.getHours() + ':' + ('0' + currentDateTime.getMinutes()).slice(-2);
+      messageTime.innerText = currentTimeString;
+      var checkIcon = document.createElement('span');
+      checkIcon.className = 'check-icon';
+
+      balaoUsuario.appendChild(messageTime);
+      balaoUsuario.appendChild(checkIcon);
+      userMessageContainer.appendChild(balaoUsuario);
+      container.appendChild(userMessageContainer);
+
+      //chamando o vídeo correspondente ao botão
+      dando();
+    }
+  </script>
+  <script>
+    // BOTÃO 04
+    var userMessages = document.getElementsByClassName('user-message');
+    var contactMessages = document.getElementsByClassName('contact-message');
+    var contactAudioMessages = document.getElementsByClassName('contact-audio-message');
+    var currentDateTime = new Date();
+    var currentTimeString = currentDateTime.getHours() + ':' + ('0' + currentDateTime.getMinutes()).slice(-2);
+
+    for (var i = 0; i < userMessages.length; i++) {
+        userMessages[i].querySelector('.message-time').innerText = currentTimeString;
+    }
+
+    for (var i = 0; i < contactMessages.length; i++) {
+        contactMessages[i].querySelector('.contact-message-time').innerText = currentTimeString;
+    }
+
+    for (var i = 0; i < contactAudioMessages.length; i++) {
+        contactAudioMessages[i].querySelector('.contact-message-time').innerText = currentTimeString;
+    }
+
+    function botao04() {
+      var rightButton3 = document.getElementById('right-button3');
+      rightButton3.style.display = 'none';
+      var rightButton4 = document.getElementById('right-button4');
+      rightButton4.style.display = 'none';
+      var rightButton5 = document.getElementById('right-button5');
+      rightButton5.style.display = 'none';
+
+      var container = document.getElementsByClassName('container')[0];
+      var userMessageContainer = document.createElement('div');
+      userMessageContainer.className = 'user-message-container';
+
+      var balaoUsuario = document.createElement('div');
+      balaoUsuario.className = 'user-message';
+      balaoUsuario.innerText = 'Se masturb4ando';
+      var messageTime = document.createElement('span');
+      messageTime.className = 'message-time';
+      var currentDateTime = new Date();
+      var currentTimeString = currentDateTime.getHours() + ':' + ('0' + currentDateTime.getMinutes()).slice(-2);
+      messageTime.innerText = currentTimeString;
+      var checkIcon = document.createElement('span');
+      checkIcon.className = 'check-icon';
+
+      balaoUsuario.appendChild(messageTime);
+      balaoUsuario.appendChild(checkIcon);
+      userMessageContainer.appendChild(balaoUsuario);
+      container.appendChild(userMessageContainer);
+
+      //chamando o vídeo correspondente ao botão
+      masturb();
+    }
+  </script>
+  <script>
+    // BOTÃO 05
+    var userMessages = document.getElementsByClassName('user-message');
+    var contactMessages = document.getElementsByClassName('contact-message');
+    var contactAudioMessages = document.getElementsByClassName('contact-audio-message');
+    var currentDateTime = new Date();
+    var currentTimeString = currentDateTime.getHours() + ':' + ('0' + currentDateTime.getMinutes()).slice(-2);
+
+    for (var i = 0; i < userMessages.length; i++) {
+        userMessages[i].querySelector('.message-time').innerText = currentTimeString;
+    }
+
+    for (var i = 0; i < contactMessages.length; i++) {
+        contactMessages[i].querySelector('.contact-message-time').innerText = currentTimeString;
+    }
+
+    for (var i = 0; i < contactAudioMessages.length; i++) {
+        contactAudioMessages[i].querySelector('.contact-message-time').innerText = currentTimeString;
+    }
+
+    function botao05() {
+      var rightButton3 = document.getElementById('right-button3');
+      rightButton3.style.display = 'none';
+      var rightButton4 = document.getElementById('right-button4');
+      rightButton4.style.display = 'none';
+      var rightButton5 = document.getElementById('right-button5');
+      rightButton5.style.display = 'none';
+
+      var container = document.getElementsByClassName('container')[0];
+      var userMessageContainer = document.createElement('div');
+      userMessageContainer.className = 'user-message-container';
+
+      var balaoUsuario = document.createElement('div');
+      balaoUsuario.className = 'user-message';
+      balaoUsuario.innerText = 'Mamando até o talo';
+      var messageTime = document.createElement('span');
+      messageTime.className = 'message-time';
+      var currentDateTime = new Date();
+      var currentTimeString = currentDateTime.getHours() + ':' + ('0' + currentDateTime.getMinutes()).slice(-2);
+      messageTime.innerText = currentTimeString;
+      var checkIcon = document.createElement('span');
+      checkIcon.className = 'check-icon';
+
+      balaoUsuario.appendChild(messageTime);
+      balaoUsuario.appendChild(checkIcon);
+      userMessageContainer.appendChild(balaoUsuario);
+      container.appendChild(userMessageContainer);
+
+      //chamando o vídeo correspondente ao botão
+      mamando();
+    }
+
+    function botao06() {
+      var rightButton6 = document.getElementById('right-button6');
+      rightButton6.style.display = 'none';
+
+      var container = document.getElementsByClassName('container')[0];
+      var userMessageContainer = document.createElement('div');
+      userMessageContainer.className = 'user-message-container';
+
+      var balaoUsuario = document.createElement('div');
+      balaoUsuario.className = 'user-message';
+      balaoUsuario.innerText = 'Me mostra mais';
+      var messageTime = document.createElement('span');
+      messageTime.className = 'message-time';
+      var currentDateTime = new Date();
+      var currentTimeString = currentDateTime.getHours() + ':' + ('0' + currentDateTime.getMinutes()).slice(-2);
+      messageTime.innerText = currentTimeString;
+      var checkIcon = document.createElement('span');
+      checkIcon.className = 'check-icon';
+
+      balaoUsuario.appendChild(messageTime);
+      balaoUsuario.appendChild(checkIcon);
+      userMessageContainer.appendChild(balaoUsuario);
+      container.appendChild(userMessageContainer);
+
+    }
+  </script>
+
+  <script>
+    function seguirBotao01() {
+      console.log("Aqui");
+      exibirDigitando();
+
+      setTimeout(
+        function() {
+
+
+        var container = document.createElement("div");
+        container.className = "contact-message-container";
+        
+        var messageDiv = document.createElement("div");
+        messageDiv.className = "contact-message";
+        messageDiv.textContent = "Ahhh safadinho 🥰";
+        
+        var timeSpan = document.createElement("span");
+        timeSpan.className = "contact-message-time";
+        
+        messageDiv.appendChild(timeSpan);
+        container.appendChild(messageDiv);
+        
+        document.body.appendChild(container);
+
+
+        rolarAteOFinal();
+      }, 3000); // 3000 milissegundos = 3 segundos
+
+      setTimeout(function() {
+        var container = document.createElement("div");
+        container.className = "contact-audio-container";
+        
+        var messageDiv = document.createElement("div");
+        messageDiv.className = "contact-audio-message";
+        
+        var audioContainer = document.createElement("div");
+        audioContainer.className = "audio-container";
+        
+        var audioElement = document.createElement("audio");
+        audioElement.src = "chat02.mp3";
+        audioElement.controls = true;
+        audioElement.controlslist = "nodownload nofullscreen";
+        audioElement.preload = "metadata";
+        
+        var photoDiv = document.createElement("div");
+        photoDiv.className = "contact-photo";
+        photoDiv.style.marginRight = "0px";
+        photoDiv.style.width = "50px";
+        photoDiv.style.height = "50px";
+        
+        audioContainer.appendChild(audioElement);
+        audioContainer.appendChild(photoDiv);
+        
+        var timeSpan = document.createElement("span");
+        timeSpan.className = "contact-message-time";
+        
+        messageDiv.appendChild(audioContainer);
+        messageDiv.appendChild(timeSpan);
+        
+        container.appendChild(messageDiv);
+        
+        document.body.appendChild(container);
+
+        rolarAteOFinal();
+      }, 8000); // 4000 milissegundos = 4 segundos
+
+
+      setTimeout(function() {
+        var container = document.createElement("div");
+        container.className = "contact-message-container";
+        
+        var messageDiv = document.createElement("div");
+        messageDiv.className = "contact-message";
+        messageDiv.textContent = "Está sozinho aí? posso te mandar uma fotinha? 🔥";
+        
+        var timeSpan = document.createElement("span");
+        timeSpan.className = "contact-message-time";
+        
+        messageDiv.appendChild(timeSpan);
+        container.appendChild(messageDiv);
+        
+        document.body.appendChild(container);
+
+        rolarAteOFinal();
+      }, 24000); // 4000 milissegundos = 4 segundos
+
+
+      setTimeout(function() {
+        var container = document.createElement("div");
+        container.className = "right-button-container";
+        container.id = "right-button2";
+        
+        var button = document.createElement("button");
+        button.className = "right-button";
+        button.onclick = botao02;
+        button.textContent = "Estou sozinho 😈";
+        
+        var img = document.createElement("img");
+        img.src = "send.png";
+        img.alt = "Enviar";
+        
+        button.appendChild(img);
+        container.appendChild(button);
+        
+        document.body.appendChild(container);
+
+        rolarAteOFinal();
+      }, 25000); // 4000 milissegundos = 4 segundos
+
+    }
+
+    function seguirBotao02() {
+      setTimeout(function() {
+        var container = document.createElement("div");
+        container.className = "contact-message-container";
+        
+        var messageDiv = document.createElement("div");
+        messageDiv.className = "contact-message";
+        messageDiv.textContent = "Espera aí bb, vou tirar... Mas não compartilha em grupo hein..";
+        
+        var timeSpan = document.createElement("span");
+        timeSpan.className = "contact-message-time";
+        
+        messageDiv.appendChild(timeSpan);
+        container.appendChild(messageDiv);
+        
+        document.body.appendChild(container);
+
+        rolarAteOFinal();
+      }, 3000); // 3000 milissegundos = 3 segundos
+
+
+      setTimeout(function() {
+        var imageContainer = document.createElement("div");
+        imageContainer.className = "contact-image-message";
+        
+        var balloonDiv = document.createElement("div");
+        balloonDiv.className = "contact-balloon";
+        
+        var imageElement = document.createElement("img");
+        imageElement.src = "img01.png";
+        
+        var timeSpan = document.createElement("span");
+        timeSpan.className = "contact-message-time";
+        
+        balloonDiv.appendChild(imageElement);
+        balloonDiv.appendChild(timeSpan);
+        
+        imageContainer.appendChild(balloonDiv);
+        
+        document.body.appendChild(imageContainer);
+
+        rolarAteOFinal();
+      }, 9000); // 5000 milissegundos = 5 segundos
+
+
+      setTimeout(function() {
+        var container = document.createElement("div");
+        container.className = "contact-message-container";
+        
+        var messageDiv = document.createElement("div");
+        messageDiv.className = "contact-message";
+        messageDiv.textContent = "Gostou de mim? 😍";
+        
+        var timeSpan = document.createElement("span");
+        timeSpan.className = "contact-message-time";
+        
+        messageDiv.appendChild(timeSpan);
+        container.appendChild(messageDiv);
+        
+        document.body.appendChild(container);
+
+        rolarAteOFinal();
+      }, 12000); // 0 milissegundos = inserir imediatamente
+
+
+      setTimeout(function() {
+        var container = document.createElement("div");
+        container.className = "right-button-container";
+        container.id = "right-button-esquecido";
+        
+        var button = document.createElement("button");
+        button.className = "right-button";
+        button.onclick = botaoEsquecido;
+        button.textContent = "Delícia!🤤 Mostra mais...";
+        
+        var img = document.createElement("img");
+        img.src = "send.png";
+        img.alt = "Enviar";
+        
+        button.appendChild(img);
+        container.appendChild(button);
+        
+        document.body.appendChild(container);
+
+        rolarAteOFinal();
+      }, 13000); // 0 milissegundos = inserir imediatamente
+    }
+
+    function seguirBotao03(){
+
+      setTimeout(function() {
+        var container = document.createElement("div");
+        container.className = "contact-message-container";
+        
+        var messageDiv = document.createElement("div");
+        messageDiv.className = "contact-message";
+        messageDiv.textContent = "rsrsrs saf4do. Já deve estar de p4u dur0 né? Se vc estivesse aqui cmg ganharia uma mamad4 inesquecível🍆💦";
+        
+        var timeSpan = document.createElement("span");
+        timeSpan.className = "contact-message-time";
+        
+        messageDiv.appendChild(timeSpan);
+        container.appendChild(messageDiv);
+        
+        document.body.appendChild(container);
+
+        rolarAteOFinal();
+      }, 3000); // 0 milissegundos = inserir imediatamente
+
+
+      setTimeout(function() {
+        var container = document.createElement("div");
+        container.className = "contact-message-container";
+        
+        var messageDiv = document.createElement("div");
+        messageDiv.className = "contact-message";
+        messageDiv.textContent = "Vou te enviar o presentinho que prometi. Mas é só um. De qual jeitinho vc quer me ver?";
+        
+        var timeSpan = document.createElement("span");
+        timeSpan.className = "contact-message-time";
+        
+        messageDiv.appendChild(timeSpan);
+        container.appendChild(messageDiv);
+        
+        document.body.appendChild(container);
+
+        rolarAteOFinal();
+      }, 6000); // 0 milissegundos = inserir imediatamente
+
+      // INSERINDO OS 3 BOTÕES
+      setTimeout(function() {
+        // Criação do primeiro botão
+        var container1 = document.createElement("div");
+        container1.className = "right-button-container";
+        container1.id = "right-button3";
+        
+        var button1 = document.createElement("button");
+        button1.className = "right-button";
+        button1.onclick = botao03;
+        button1.textContent = "Dando gost0so";
+        
+        var img1 = document.createElement("img");
+        img1.src = "send.png";
+        img1.alt = "Enviar";
+        
+        button1.appendChild(img1);
+        container1.appendChild(button1);
+        
+        // Criação do segundo botão
+        var container2 = document.createElement("div");
+        container2.className = "right-button-container";
+        container2.id = "right-button4";
+        
+        var button2 = document.createElement("button");
+        button2.className = "right-button";
+        button2.onclick = botao04;
+        button2.textContent = "Se masturb4ando";
+        
+        var img2 = document.createElement("img");
+        img2.src = "send.png";
+        img2.alt = "Enviar";
+        
+        button2.appendChild(img2);
+        container2.appendChild(button2);
+        
+        // Criação do terceiro botão
+        var container3 = document.createElement("div");
+        container3.className = "right-button-container";
+        container3.id = "right-button5";
+        
+        var button3 = document.createElement("button");
+        button3.className = "right-button";
+        button3.onclick = botao05;
+        button3.textContent = "Mam4ndo até o talo";
+        
+        var img3 = document.createElement("img");
+        img3.src = "send.png";
+        img3.alt = "Enviar";
+        
+        button3.appendChild(img3);
+        container3.appendChild(button3);
+        
+        // Inserção dos containers no corpo da página
+        document.body.appendChild(container1);
+        document.body.appendChild(container2);
+        document.body.appendChild(container3);
+      }, 8000); // 0 milissegundos = inserir imediatamente
+    }
+
+    function seguirBotao04(){
+
+      setTimeout(function() {
+        var container = document.createElement("div");
+        container.className = "contact-message-container";
+        
+        var messageDiv = document.createElement("div");
+        messageDiv.className = "contact-message";
+        messageDiv.textContent = "Ficou com vontade de me comer?";
+        
+        var timeSpan = document.createElement("span");
+        timeSpan.className = "contact-message-time";
+        
+        messageDiv.appendChild(timeSpan);
+        container.appendChild(messageDiv);
+        
+        document.body.appendChild(container);
+
+        rolarAteOFinal();
+      }, 10000); // 0 milissegundos = inserir imediatamente
+
+    }
+
+  </script>
+  <script>
+    // Esse script é chamado quando o usuario escolhe qual vídeo ele quer assistir.
+
+    // VÍDEO Dando - Botão03
+    function dando() {
+      console.log("video-dando");
+
+        //Balão de OK vou enviar
+        setTimeout(function() {
+          var container = document.createElement("div");
+          container.className = "contact-message-container";
+          
+          var messageDiv = document.createElement("div");
+          messageDiv.className = "contact-message";
+          messageDiv.textContent = "Ta bom. Vou te mandar 🍑";
+          
+          var timeSpan = document.createElement("span");
+          timeSpan.className = "contact-message-time";
+          
+          messageDiv.appendChild(timeSpan);
+          container.appendChild(messageDiv);
+          
+          document.body.appendChild(container);
+
+          rolarAteOFinal();
+          exibirDigitando();
+        }, 2000); // 0 milissegundos = inserir imediatamente
+
+
+        setTimeout(function() {
+          var container = document.createElement("div");
+          container.className = "contact-video-message";
+          
+          var balloonDiv = document.createElement("div");
+          balloonDiv.className = "contact-balloon";
+          
+          var videoDiv = document.createElement("div");
+          videoDiv.id = "vid_63f6c7db930052000bb73c3f";
+          videoDiv.style.borderRadius = "10px";
+          videoDiv.style.position = "relative";
+          videoDiv.style.width = "100%";
+          videoDiv.style.padding = "125% 0 0";
+          videoDiv.style.left = "-9px";
+          
+          var videoThumbnail = document.createElement("img");
+          videoThumbnail.id = "thumb_63f6c7db930052000bb73c3f";
+          videoThumbnail.src = "https://images.converteai.net/cbcea761-4024-48ee-b94c-332740b304c5/players/63f6c7db930052000bb73c3f/thumbnail.jpg";
+          videoThumbnail.style.position = "absolute";
+          videoThumbnail.style.top = "0";
+          videoThumbnail.style.left = "0";
+          videoThumbnail.style.width = "100%";
+          videoThumbnail.style.height = "100%";
+          videoThumbnail.style.objectFit = "cover";
+          videoThumbnail.style.display = "block";
+          
+          var videoBackdrop = document.createElement("div");
+          videoBackdrop.id = "backdrop_63f6c7db930052000bb73c3f";
+          videoBackdrop.style.position = "absolute";
+          videoBackdrop.style.top = "0";
+          videoBackdrop.style.width = "100%";
+          videoBackdrop.style.height = "100%";
+          videoBackdrop.style.webkitBackdropFilter = "blur(5px)";
+          videoBackdrop.style.backdropFilter = "blur(5px)";
+          
+          videoDiv.appendChild(videoThumbnail);
+          videoDiv.appendChild(videoBackdrop);
+          
+          var videoScript = document.createElement("script");
+          videoScript.type = "text/javascript";
+          videoScript.id = "scr_63f6c7db930052000bb73c3f";
+          videoScript.innerHTML = 'var s=document.createElement("script");s.src="https://scripts.converteai.net/cbcea761-4024-48ee-b94c-332740b304c5/players/63f6c7db930052000bb73c3f/player.js",s.async=!0,document.head.appendChild(s);';
+          
+          container.appendChild(balloonDiv);
+          container.appendChild(videoDiv);
+          container.appendChild(videoScript);
+          
+          document.body.appendChild(container);
+
+          rolarAteOFinal();
+          seguirBotao04();
+        }, 6000); // 3000 milissegundos = 3 segundos
+    }
+
+    // VÍDEO Masturb - Botão04
+    function masturb() {
+      console.log("masturbaç")
+
+        //Balão de OK vou enviar
+        setTimeout(function() {
+          var container = document.createElement("div");
+          container.className = "contact-message-container";
+          
+          var messageDiv = document.createElement("div");
+          messageDiv.className = "contact-message";
+          messageDiv.textContent = "Ta bom. Vou te mandar 🍑";
+          
+          var timeSpan = document.createElement("span");
+          timeSpan.className = "contact-message-time";
+          
+          messageDiv.appendChild(timeSpan);
+          container.appendChild(messageDiv);
+          
+          document.body.appendChild(container);
+
+          rolarAteOFinal();
+          exibirDigitando();
+        }, 2000); // 0 milissegundos = inserir imediatamente
+
+        setTimeout(function() {
+          var container = document.createElement("div");
+          container.className = "contact-video-message";
+          
+          var balloonDiv = document.createElement("div");
+          balloonDiv.className = "contact-balloon";
+          
+          var videoDiv = document.createElement("div");
+          videoDiv.id = "vid_63f6c7db930052000bb73c3f";
+          videoDiv.style.borderRadius = "10px";
+          videoDiv.style.position = "relative";
+          videoDiv.style.width = "100%";
+          videoDiv.style.padding = "125% 0 0";
+          videoDiv.style.left = "-9px";
+          
+          var videoThumbnail = document.createElement("img");
+          videoThumbnail.id = "thumb_63f6c7db930052000bb73c3f";
+          videoThumbnail.src = "https://images.converteai.net/cbcea761-4024-48ee-b94c-332740b304c5/players/63f6c7db930052000bb73c3f/thumbnail.jpg";
+          videoThumbnail.style.position = "absolute";
+          videoThumbnail.style.top = "0";
+          videoThumbnail.style.left = "0";
+          videoThumbnail.style.width = "100%";
+          videoThumbnail.style.height = "100%";
+          videoThumbnail.style.objectFit = "cover";
+          videoThumbnail.style.display = "block";
+          
+          var videoBackdrop = document.createElement("div");
+          videoBackdrop.id = "backdrop_63f6c7db930052000bb73c3f";
+          videoBackdrop.style.position = "absolute";
+          videoBackdrop.style.top = "0";
+          videoBackdrop.style.width = "100%";
+          videoBackdrop.style.height = "100%";
+          videoBackdrop.style.webkitBackdropFilter = "blur(5px)";
+          videoBackdrop.style.backdropFilter = "blur(5px)";
+          
+          videoDiv.appendChild(videoThumbnail);
+          videoDiv.appendChild(videoBackdrop);
+          
+          var videoScript = document.createElement("script");
+          videoScript.type = "text/javascript";
+          videoScript.id = "scr_63f6c7db930052000bb73c3f";
+          videoScript.innerHTML = 'var s=document.createElement("script");s.src="https://scripts.converteai.net/cbcea761-4024-48ee-b94c-332740b304c5/players/63f6c7db930052000bb73c3f/player.js",s.async=!0,document.head.appendChild(s);';
+          
+          container.appendChild(balloonDiv);
+          container.appendChild(videoDiv);
+          container.appendChild(videoScript);
+          
+          document.body.appendChild(container);
+
+          rolarAteOFinal();
+        }, 6000); // 3000 milissegundos = 3 segundos
+    }
+
+    // VÍDEO MAMADA - Botão05
+    function mamando() {
+      console.log("video-mamada")
+
+        //Balão de OK vou enviar
+        setTimeout(function() {
+          var container = document.createElement("div");
+          container.className = "contact-message-container";
+          
+          var messageDiv = document.createElement("div");
+          messageDiv.className = "contact-message";
+          messageDiv.textContent = "Ta bom. Vou te mandar 🍑";
+          
+          var timeSpan = document.createElement("span");
+          timeSpan.className = "contact-message-time";
+          
+          messageDiv.appendChild(timeSpan);
+          container.appendChild(messageDiv);
+          
+          document.body.appendChild(container);
+
+          rolarAteOFinal();
+          exibirDigitando()
+        }, 2000); // 0 milissegundos = inserir imediatamente
+
+
+        setTimeout(function() {
+          var container = document.createElement("div");
+          container.className = "contact-video-message";
+          
+          var balloonDiv = document.createElement("div");
+          balloonDiv.className = "contact-balloon";
+          
+          var videoDiv = document.createElement("div");
+          videoDiv.id = "vid_63f6c7db930052000bb73c3f";
+          videoDiv.style.borderRadius = "10px";
+          videoDiv.style.position = "relative";
+          videoDiv.style.width = "100%";
+          videoDiv.style.padding = "125% 0 0";
+          videoDiv.style.left = "-9px";
+          
+          var videoThumbnail = document.createElement("img");
+          videoThumbnail.id = "thumb_63f6c7db930052000bb73c3f";
+          videoThumbnail.src = "https://images.converteai.net/cbcea761-4024-48ee-b94c-332740b304c5/players/63f6c7db930052000bb73c3f/thumbnail.jpg";
+          videoThumbnail.style.position = "absolute";
+          videoThumbnail.style.top = "0";
+          videoThumbnail.style.left = "0";
+          videoThumbnail.style.width = "100%";
+          videoThumbnail.style.height = "100%";
+          videoThumbnail.style.objectFit = "cover";
+          videoThumbnail.style.display = "block";
+          
+          var videoBackdrop = document.createElement("div");
+          videoBackdrop.id = "backdrop_63f6c7db930052000bb73c3f";
+          videoBackdrop.style.position = "absolute";
+          videoBackdrop.style.top = "0";
+          videoBackdrop.style.width = "100%";
+          videoBackdrop.style.height = "100%";
+          videoBackdrop.style.webkitBackdropFilter = "blur(5px)";
+          videoBackdrop.style.backdropFilter = "blur(5px)";
+          
+          videoDiv.appendChild(videoThumbnail);
+          videoDiv.appendChild(videoBackdrop);
+          
+          var videoScript = document.createElement("script");
+          videoScript.type = "text/javascript";
+          videoScript.id = "scr_63f6c7db930052000bb73c3f";
+          videoScript.innerHTML = 'var s=document.createElement("script");s.src="https://scripts.converteai.net/cbcea761-4024-48ee-b94c-332740b304c5/players/63f6c7db930052000bb73c3f/player.js",s.async=!0,document.head.appendChild(s);';
+          
+          container.appendChild(balloonDiv);
+          container.appendChild(videoDiv);
+          container.appendChild(videoScript);
+          
+          document.body.appendChild(container);
+
+          rolarAteOFinal();
+        }, 6000); // 3000 milissegundos = 3 segundos
+    }
+  </script>
+
+  <script>
+    function exibirDigitando() {
+      var onlineIndicator = document.querySelector('.online-indicator');
+      onlineIndicator.innerText = 'digitando...';
+
+      setTimeout(function() {
+        onlineIndicator.innerText = 'Online';
+      }, 3000);
+    }
+  </script>
+  <script>
+    function rolarAteOFinal() {
+      var alturaTotal = document.body.scrollHeight;
+      window.scrollTo({
+        top: alturaTotal,
+        behavior: "smooth"
+      });
+    }
+  </script>
+
+
+</body>
+</html>
