@@ -36,14 +36,56 @@
     }
 
     .contact-photo {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      margin-right: 10px;
-      background-image: url('perfil.jpg');
-      background-size: cover;
-      background-position: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    background-image: url('perfil.png');
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+}
+
+/* POPUP de Foto do Perfil */
+
+    .popup {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        justify-content: center;
+        align-items: center;
+        z-index: 9999; /* Certifique-se de que o popup esteja na frente de outros elementos */
     }
+
+    .popup-content {
+        text-align: center;
+        position: relative;
+    }
+
+    .popup-content img {
+        max-width: 100%;
+        max-height: 80vh;
+    }
+
+    #close-btn {
+        position: absolute;
+        position: absolute;
+        top: -136px;
+        right: 335px;
+        color: white;
+        /* font-weight: 600; */
+        background-color: black;
+        border: none;
+        font-size: 30px;
+        padding: 3px 9px;
+        border-radius: 50%;
+    }
+
+    /*------------------*/
 
     .user-info {
       display: flex;
@@ -99,13 +141,14 @@
     .user-message-container {
       display: flex;
       justify-content: flex-end;
-      margin-bottom: 5px;
+      margin-bottom: 10px;
     }
 
     .contact-message-container {
       display: flex;
       justify-content: flex-start;
       margin-bottom: 10px;
+      max-width: 90%;
     }
 
     .user-message {
@@ -393,8 +436,7 @@
       padding: 8px;
       font-size: 14px;
       line-height: 1.4;
-      position: relative;      
-      margin-bottom: 10px;
+      position: relative;
     }
 
     .user-message input {
@@ -417,8 +459,6 @@
       padding: 8px;
       font-size: 14px;
       line-height: 1.4;
-      width: auto;
-      max-width: 90%; /* Tamanho máximo do balão de link */
     }
 
     .contact-link-balloon::before {
@@ -442,7 +482,7 @@
     }
 
     .contact-link-text {
-      font-size: 18px; /* Tamanho maior da fonte para o texto */
+      font-size: 16px; /* Tamanho maior da fonte para o texto */
       font-weight: 700;
     }
 
@@ -460,56 +500,41 @@
 
   </style>
 </head>
-<body onload="exibirDigitando()">
+<body onload="inicial()">
   <div class="top-bar">
-    <div class="contact-info">
-      <div class="contact-photo"></div>
-      <div class="user-info">
-        <div class="contact-name">Gabi Tavares</div>
-        <div class="online-indicator">Online</div>
+      <div class="contact-info">
+          <div class="contact-photo" id="profile-photo"></div>
+          <div class="user-info">
+              <div class="contact-name">Bianca Oliveira</div>
+              <div class="online-indicator">Online</div>
+          </div>
+      </div>
+      <div class="action-buttons">
+          <div class="action-button">
+              <img src="clips.png" alt="Botão 1">
+          </div>
+          <div class="action-button">
+              <img src="tel.png" alt="Botão 2">
+          </div>
+          <div class="action-button">
+              <img src="dots2.png" alt="Botão 3">
+          </div>
       </div>
     </div>
-    <div class="action-buttons">
-      <div class="action-button">
-        <img src="clips.png" alt="Botão 1">
-      </div>
-      <div class="action-button">
-        <img src="tel.png" alt="Botão 2">
-      </div>
-      <div class="action-button">
-        <img src="dots2.png" alt="Botão 3">
-      </div>
+    <div class="popup" id="popup">
+        <div class="popup-content">
+            <img src="perfil.png" alt="Profile Photo" id="enlarged-photo">
+            <button id="close-btn">X</button>
+        </div>
     </div>
-  </div>
 
   <div class="container">
     <!-- BALÃO FIXO HOJE -->
     <div class="today-balloon">Hoje</div>
 
 
-    <!-- BALÃO DE MENSAGEM-CONTATO -->
-    <div class="contact-message-container">
-      <div class="contact-message">
-        oi amore, fala comigo
-        <span class="contact-message-time"></span>
-      </div>
-    </div>
-
-    <!-- BALÃO DE ÁUDIO-CONTATO -->
-    <div class="contact-audio-container">
-      <div class="contact-audio-message">
-        <div class="audio-container">
-          <audio src="chat01.mp3" controls controlslist="nodownload nofullscreen" preload="metadata"></audio>
-          <div class="contact-photo" style="margin-right: 0px; width: 50px; height: 50px"></div>
-        </div>
-        <span class="contact-message-time"></span>
-      </div>
-    </div>
-
     <!-- BOTÃO DE AÇÃO-USUARIO+FUNÇÃO PARA MOSTRAR O BALÃO DE MENSAGEM -->
-    <div class="right-button-container" id="right-button">
-      <button class="right-button" onclick="botao01()" >Siim😈<img src="send.png" alt="Enviar"></button>
-    </div>
+
 
     <!-- BOTÃO DE AÇÃO-USUARIO+FUNÇÃO PARA MOSTRAR O BALÃO DE MENSAGEM -->
 
@@ -533,6 +558,776 @@
     
   </div>
 
+  <script>
+    function inicial(){
+      setTimeout(function() {
+          var container = document.querySelector(".container"); // Seleciona a div com a classe "container"
+          
+          var userMessageContainer = document.createElement("div");
+          userMessageContainer.className = "user-message-container";
+
+          var messageDiv = document.createElement("div");
+          messageDiv.className = "user-message";
+          messageDiv.textContent = "Oi Bianca! Quero meu presente!";
+          
+          var timeSpan = document.createElement("span");
+          timeSpan.className = "message-time";
+          
+          var checkIconSpan = document.createElement("span");
+          checkIconSpan.className = "check-icon";
+          
+          messageDiv.appendChild(timeSpan);
+          messageDiv.appendChild(checkIconSpan);
+          
+          userMessageContainer.appendChild(messageDiv);
+          
+          container.appendChild(userMessageContainer); // Anexa o conteúdo ao container selecionado
+
+          exibirGravandoAudio();
+      }, 1000); // 1000 milissegundos = inserir após 1 segundo
+
+
+
+      setTimeout(function() {
+        var container = document.querySelector(".container"); // Seleciona a div com a classe "container"
+        
+        var contactAudioContainer = document.createElement("div");
+        contactAudioContainer.className = "contact-audio-container";
+        
+        var audioMessageDiv = document.createElement("div");
+        audioMessageDiv.className = "contact-audio-message";
+        
+        var audioContainerDiv = document.createElement("div");
+        audioContainerDiv.className = "audio-container";
+        
+        var audioElement = document.createElement("audio");
+        audioElement.src = "chat01.mp3";
+        audioElement.controls = true;
+        audioElement.controlslist = "nodownload nofullscreen";
+        audioElement.preload = "metadata";
+        
+        var contactPhotoDiv = document.createElement("div");
+        contactPhotoDiv.className = "contact-photo";
+        contactPhotoDiv.style.marginRight = "0px";
+        contactPhotoDiv.style.width = "50px";
+        contactPhotoDiv.style.height = "50px";
+        
+        var timeSpan = document.createElement("span");
+        timeSpan.className = "contact-message-time";
+        
+        audioContainerDiv.appendChild(audioElement);
+        audioContainerDiv.appendChild(contactPhotoDiv);
+        
+        audioMessageDiv.appendChild(audioContainerDiv);
+        audioMessageDiv.appendChild(timeSpan);
+        
+        contactAudioContainer.appendChild(audioMessageDiv);
+        
+        container.appendChild(contactAudioContainer); // Anexa o conteúdo ao container selecionado
+
+      }, 5000); // 5000 milissegundos = inserir após 5 segundos
+
+
+      setTimeout(function() {
+          var container = document.querySelector(".container"); // Seleciona a div com a classe "container"
+          
+          var rightButtonContainer = document.createElement("div");
+          rightButtonContainer.className = "right-button-container";
+          rightButtonContainer.id = "right-button";
+          
+          var button = document.createElement("button");
+          button.className = "right-button";
+          button.onclick = botao01;
+          button.textContent = "Siim😈";
+          
+          var img = document.createElement("img");
+          img.src = "send.png";
+          img.alt = "Enviar";
+          
+          button.appendChild(img);
+          rightButtonContainer.appendChild(button);
+          
+          container.appendChild(rightButtonContainer); // Anexa o conteúdo ao container selecionado
+
+      }, 10000); // 10000 milissegundos = inserir após 10 segundos
+
+
+
+    }
+
+
+    function fluxoBotao01() {
+      console.log("Aqui");
+      exibirDigitando();
+
+      setTimeout(function() {
+          var container = document.querySelector(".container"); // Seleciona a div com a classe "container"
+          
+          var contactMessageContainer = document.createElement("div");
+          contactMessageContainer.className = "contact-message-container";
+          
+          var messageDiv = document.createElement("div");
+          messageDiv.className = "contact-message";
+          messageDiv.textContent = "Ahhh safadinho 🥰";
+          
+          var timeSpan = document.createElement("span");
+          timeSpan.className = "contact-message-time";
+          
+          messageDiv.appendChild(timeSpan);
+          contactMessageContainer.appendChild(messageDiv);
+          
+          container.appendChild(contactMessageContainer); // Anexa o conteúdo ao container selecionado
+
+          rolarAteOFinal();
+      }, 3000); // 3000 milissegundos = inserir após 3 segundos
+
+
+      setTimeout(function() {
+          var container = document.querySelector(".container"); // Seleciona a div com a classe "container"
+          
+          var contactAudioContainer = document.createElement("div");
+          contactAudioContainer.className = "contact-audio-container";
+          
+          var audioMessageDiv = document.createElement("div");
+          audioMessageDiv.className = "contact-audio-message";
+          
+          var audioContainerDiv = document.createElement("div");
+          audioContainerDiv.className = "audio-container";
+          
+          var audioElement = document.createElement("audio");
+          audioElement.src = "chat02.mp3";
+          audioElement.controls = true;
+          audioElement.controlslist = "nodownload nofullscreen";
+          audioElement.preload = "metadata";
+          
+          var photoDiv = document.createElement("div");
+          photoDiv.className = "contact-photo";
+          photoDiv.style.marginRight = "0px";
+          photoDiv.style.width = "50px";
+          photoDiv.style.height = "50px";
+          
+          audioContainerDiv.appendChild(audioElement);
+          audioContainerDiv.appendChild(photoDiv);
+          
+          var timeSpan = document.createElement("span");
+          timeSpan.className = "contact-message-time";
+          
+          audioMessageDiv.appendChild(audioContainerDiv);
+          audioMessageDiv.appendChild(timeSpan);
+          
+          contactAudioContainer.appendChild(audioMessageDiv);
+          
+          container.appendChild(contactAudioContainer); // Anexa o conteúdo ao container selecionado
+
+          rolarAteOFinal();
+      }, 8000); // 8000 milissegundos = inserir após 8 segundos
+
+
+
+      setTimeout(function() {
+          var container = document.querySelector(".container"); // Seleciona a div com a classe "container"
+          
+          var contactMessageContainer = document.createElement("div");
+          contactMessageContainer.className = "contact-message-container";
+          
+          var messageDiv = document.createElement("div");
+          messageDiv.className = "contact-message";
+          messageDiv.textContent = "Está sozinho aí? vou aproveitar que estou de calcinha agora e te mandar uma foto🔥";
+          
+          var timeSpan = document.createElement("span");
+          timeSpan.className = "contact-message-time";
+          
+          messageDiv.appendChild(timeSpan);
+          contactMessageContainer.appendChild(messageDiv);
+          
+          container.appendChild(contactMessageContainer); // Anexa o conteúdo ao container selecionado
+
+          rolarAteOFinal();
+      }, 24000); // 24000 milissegundos = inserir após 24 segundos
+
+
+
+      setTimeout(function() {
+          var container = document.querySelector(".container"); // Seleciona a div com a classe "container"
+          
+          var rightButtonContainer = document.createElement("div");
+          rightButtonContainer.className = "right-button-container";
+          rightButtonContainer.id = "right-button2";
+          
+          var button = document.createElement("button");
+          button.className = "right-button";
+          button.onclick = botao02;
+          button.textContent = "Estou sozinho 😈";
+          
+          var img = document.createElement("img");
+          img.src = "send.png";
+          img.alt = "Enviar";
+          
+          button.appendChild(img);
+          rightButtonContainer.appendChild(button);
+          
+          container.appendChild(rightButtonContainer); // Anexa o conteúdo ao container selecionado
+
+          rolarAteOFinal();
+      }, 25000); // 25000 milissegundos = inserir após 25 segundos
+
+
+    }
+
+    function seguirBotao02() {
+      setTimeout(function() {
+          var container = document.querySelector(".container"); // Seleciona a div com a classe "container"
+          
+          var contactMessageContainer = document.createElement("div");
+          contactMessageContainer.className = "contact-message-container";
+          
+          var messageDiv = document.createElement("div");
+          messageDiv.className = "contact-message";
+          messageDiv.textContent = "Espera aí bb, vou tirar... Mas não compartilha em grupo hein..";
+          
+          var timeSpan = document.createElement("span");
+          timeSpan.className = "contact-message-time";
+          
+          messageDiv.appendChild(timeSpan);
+          contactMessageContainer.appendChild(messageDiv);
+          
+          container.appendChild(contactMessageContainer); // Anexa o conteúdo ao container selecionado
+
+          rolarAteOFinal();
+      }, 3000); // 3000 milissegundos = inserir após 3 segundos
+
+
+
+      setTimeout(function() {
+          var container = document.querySelector(".container"); // Seleciona a div com a classe "container"
+          
+          var imageContainer = document.createElement("div");
+          imageContainer.className = "contact-image-message";
+          
+          var balloonDiv = document.createElement("div");
+          balloonDiv.className = "contact-balloon";
+          
+          var imageElement = document.createElement("img");
+          imageElement.src = "img01.png";
+          
+          var timeSpan = document.createElement("span");
+          timeSpan.className = "contact-message-time";
+          
+          balloonDiv.appendChild(imageElement);
+          balloonDiv.appendChild(timeSpan);
+          
+          imageContainer.appendChild(balloonDiv);
+          
+          container.appendChild(imageContainer); // Anexa o conteúdo ao container selecionado
+
+          rolarAteOFinal();
+      }, 9000); // 9000 milissegundos = inserir após 9 segundos
+
+
+
+      setTimeout(function() {
+          var container = document.querySelector(".container"); // Seleciona a div com a classe "container"
+          
+          var contactMessageContainer = document.createElement("div");
+          contactMessageContainer.className = "contact-message-container";
+          
+          var messageDiv = document.createElement("div");
+          messageDiv.className = "contact-message";
+          messageDiv.textContent = "Gostou de mim? 😍";
+          
+          var timeSpan = document.createElement("span");
+          timeSpan.className = "contact-message-time";
+          
+          messageDiv.appendChild(timeSpan);
+          contactMessageContainer.appendChild(messageDiv);
+          
+          container.appendChild(contactMessageContainer); // Anexa o conteúdo ao container selecionado
+
+          rolarAteOFinal();
+      }, 12000); // 12000 milissegundos = inserir após 12 segundos
+
+
+
+      setTimeout(function() {
+          var containerDiv = document.querySelector('.container');
+
+          var buttonContainer = document.createElement("div");
+          buttonContainer.className = "right-button-container";
+          buttonContainer.id = "right-button-esquecido";
+          
+          var button = document.createElement("button");
+          button.className = "right-button";
+          button.onclick = botaoEsquecido;
+          button.textContent = "Delíciosa!🤤";
+          
+          var img = document.createElement("img");
+          img.src = "send.png";
+          img.alt = "Enviar";
+          
+          button.appendChild(img);
+          buttonContainer.appendChild(button);
+
+          containerDiv.appendChild(buttonContainer);
+
+          rolarAteOFinal();
+      }, 13000); // 13000 milissegundos = inserir após 13 segundos
+
+    }
+
+    function seguirBotao03(){
+
+      setTimeout(function() {
+          var container = document.querySelector(".container"); // Seleciona a div com a classe "container"
+          
+          var contactMessageContainer = document.createElement("div");
+          contactMessageContainer.className = "contact-message-container";
+          
+          var messageDiv = document.createElement("div");
+          messageDiv.className = "contact-message";
+          messageDiv.textContent = "rsrsrs safado. Já deve estar de pau duro né? Se vc estivesse aqui cmg ganharia um boquete inesquecível🍆💦";
+          
+          var timeSpan = document.createElement("span");
+          timeSpan.className = "contact-message-time";
+          
+          messageDiv.appendChild(timeSpan);
+          contactMessageContainer.appendChild(messageDiv);
+          
+          container.appendChild(contactMessageContainer); // Anexa o conteúdo ao container selecionado
+
+          rolarAteOFinal();
+      }, 3000); // 3000 milissegundos = inserir após 3 segundos
+
+
+
+      setTimeout(function() {
+          var container = document.querySelector(".container"); // Seleciona a div com a classe "container"
+          
+          var contactMessageContainer = document.createElement("div");
+          contactMessageContainer.className = "contact-message-container";
+          
+          var messageDiv = document.createElement("div");
+          messageDiv.className = "contact-message";
+          messageDiv.textContent = "Vou te enviar o presentinho que prometi. Mas é só um. De qual jeitinho vc quer me ver?";
+          
+          var timeSpan = document.createElement("span");
+          timeSpan.className = "contact-message-time";
+          
+          messageDiv.appendChild(timeSpan);
+          contactMessageContainer.appendChild(messageDiv);
+          
+          container.appendChild(contactMessageContainer); // Anexa o conteúdo ao container selecionado
+
+          rolarAteOFinal();
+      }, 6000); // 6000 milissegundos = inserir após 6 segundos
+
+
+      // INSERINDO OS 3 BOTÕES
+      setTimeout(function() {
+          var container = document.querySelector(".container"); // Seleciona a div com a classe "container"
+          
+          // Criação do primeiro botão
+          var container1 = document.createElement("div");
+          container1.className = "right-button-container";
+          container1.id = "right-button3";
+          
+          var button1 = document.createElement("button");
+          button1.className = "right-button";
+          button1.onclick = botao03;
+          button1.textContent = "Dando gost0so";
+          
+          var img1 = document.createElement("img");
+          img1.src = "send.png";
+          img1.alt = "Enviar";
+          
+          button1.appendChild(img1);
+          container1.appendChild(button1);
+          
+          // Criação do segundo botão
+          var container2 = document.createElement("div");
+          container2.className = "right-button-container";
+          container2.id = "right-button4";
+          
+          var button2 = document.createElement("button");
+          button2.className = "right-button";
+          button2.onclick = botao04;
+          button2.textContent = "Se masturb4ando";
+          
+          var img2 = document.createElement("img");
+          img2.src = "send.png";
+          img2.alt = "Enviar";
+          
+          button2.appendChild(img2);
+          container2.appendChild(button2);
+          
+          // Criação do terceiro botão
+          var container3 = document.createElement("div");
+          container3.className = "right-button-container";
+          container3.id = "right-button5";
+          
+          var button3 = document.createElement("button");
+          button3.className = "right-button";
+          button3.onclick = botao05;
+          button3.textContent = "Mam4ndo até o talo";
+          
+          var img3 = document.createElement("img");
+          img3.src = "send.png";
+          img3.alt = "Enviar";
+          
+          button3.appendChild(img3);
+          container3.appendChild(button3);
+          
+          // Inserção dos containers no corpo da página
+          container.appendChild(container1);
+          container.appendChild(container2);
+          container.appendChild(container3);
+      }, 8000); // 8000 milissegundos = inserir após 8 segundos
+
+    }
+
+    function seguirBotao04(){
+
+      setTimeout(function() {
+          var container = document.querySelector(".container"); // Seleciona a div com a classe "container"
+          
+          var contactMessageContainer = document.createElement("div");
+          contactMessageContainer.className = "contact-message-container";
+          
+          var messageDiv = document.createElement("div");
+          messageDiv.className = "contact-message";
+          messageDiv.textContent = "Ficou com vontade de me comer?";
+          
+          var timeSpan = document.createElement("span");
+          timeSpan.className = "contact-message-time";
+          
+          messageDiv.appendChild(timeSpan);
+          contactMessageContainer.appendChild(messageDiv);
+          
+          container.appendChild(contactMessageContainer); // Anexa o conteúdo ao container selecionado
+
+          rolarAteOFinal();
+      }, 10000); // 10000 milissegundos = inserir após 10 segundos
+
+
+
+      setTimeout(function() {
+          var container = document.querySelector(".container"); // Seleciona a div com a classe "container"
+          
+          var rightButtonContainer = document.createElement("div");
+          rightButtonContainer.className = "right-button-container";
+          rightButtonContainer.id = "right-button6";
+          
+          var button = document.createElement("button");
+          button.className = "right-button";
+          button.onclick = botao06;
+          button.textContent = "Muita😛 Quero ver mais...";
+          
+          var img = document.createElement("img");
+          img.src = "send.png";
+          img.alt = "Enviar";
+          
+          button.appendChild(img);
+          rightButtonContainer.appendChild(button);
+          
+          container.appendChild(rightButtonContainer); // Anexa o conteúdo ao container selecionado
+
+          rolarAteOFinal();
+      }, 11000); // 11000 milissegundos = inserir após 11 segundos
+
+
+    }
+
+    function seguirBotao05(){
+
+      setTimeout(function() {
+          var container = document.querySelector(".container"); // Seleciona a div com a classe "container"
+          
+          var contactMessageContainer = document.createElement("div");
+          contactMessageContainer.className = "contact-message-container";
+          
+          var messageDiv = document.createElement("div");
+          messageDiv.className = "contact-message";
+          messageDiv.textContent = "hmm safado. Tenho certeza que vc vai gozar gostoso vendo minha buceta. Não vou mais sair da tua mente🥵🍆💦";
+          
+          var timeSpan = document.createElement("span");
+          timeSpan.className = "contact-message-time";
+          
+          messageDiv.appendChild(timeSpan);
+          contactMessageContainer.appendChild(messageDiv);
+          
+          container.appendChild(contactMessageContainer); // Anexa o conteúdo ao container selecionado
+
+          rolarAteOFinal();
+          exibirDigitando();
+      }, 2000); // 2000 milissegundos = inserir após 2 segundos
+
+
+      setTimeout(function() {
+          var container = document.querySelector(".container"); // Seleciona a div com a classe "container"
+          
+          var contactMessageContainer = document.createElement("div");
+          contactMessageContainer.className = "contact-message-container";
+          
+          var messageDiv = document.createElement("div");
+          messageDiv.className = "contact-message";
+          messageDiv.textContent = "E deixa eu te falar uma coisa que vai te deixar mais excitado. No próximo mês eu vou sortear um pessoa pra passar uma noite inteirinha comigo. Eu nunca fiz isso, to anciosa pra saber quem vai ser o sortudo.🤭 Vamos meter gostoso até o sol raiar.";
+          
+          var timeSpan = document.createElement("span");
+          timeSpan.className = "contact-message-time";
+          
+          messageDiv.appendChild(timeSpan);
+          contactMessageContainer.appendChild(messageDiv);
+          
+          container.appendChild(contactMessageContainer); // Anexa o conteúdo ao container selecionado
+
+          rolarAteOFinal();
+          exibirDigitando();
+      }, 2000); // 2000 milissegundos = inserir após 2 segundos
+
+
+      setTimeout(function() {
+          var container = document.querySelector(".container"); // Seleciona a div com a classe "container"
+          
+          var contactMessageContainer = document.createElement("div");
+          contactMessageContainer.className = "contact-message-container";
+          
+          var messageDiv = document.createElement("div");
+          messageDiv.className = "contact-message";
+          messageDiv.textContent = "Vc teria coragem de passar uma noite comigo?😇";
+          
+          var timeSpan = document.createElement("span");
+          timeSpan.className = "contact-message-time";
+          
+          messageDiv.appendChild(timeSpan);
+          contactMessageContainer.appendChild(messageDiv);
+          
+          container.appendChild(contactMessageContainer); // Anexa o conteúdo ao container selecionado
+
+          rolarAteOFinal();
+          exibirDigitando();
+      }, 2000); // 2000 milissegundos = inserir após 2 segundos
+
+
+      setTimeout(function() {
+          var container = document.querySelector(".container"); // Seleciona a div com a classe "container"
+          
+          var rightButtonContainer = document.createElement("div");
+          rightButtonContainer.className = "right-button-container";
+          rightButtonContainer.id = "right-button7";
+          
+          var button = document.createElement("button");
+          button.className = "right-button";
+          button.onclick = botao07;
+          button.textContent = "Lógico!😈";
+          
+          var img = document.createElement("img");
+          img.src = "send.png";
+          img.alt = "Enviar";
+          
+          button.appendChild(img);
+          rightButtonContainer.appendChild(button);
+          
+          container.appendChild(rightButtonContainer); // Anexa o conteúdo ao container selecionado
+
+          rolarAteOFinal();
+      }, 2000); // 2000 milissegundos = inserir após 2 segundos
+
+
+    }
+
+    function seguirBotao06(){
+
+      setTimeout(function() {
+          var container = document.querySelector(".container"); // Seleciona a div com a classe "container"
+          
+          var contactMessageContainer = document.createElement("div");
+          contactMessageContainer.className = "contact-message-container";
+          
+          var messageDiv = document.createElement("div");
+          messageDiv.className = "contact-message";
+          messageDiv.textContent = "humm assim que eu gosto.";
+          
+          var timeSpan = document.createElement("span");
+          timeSpan.className = "contact-message-time";
+          
+          messageDiv.appendChild(timeSpan);
+          contactMessageContainer.appendChild(messageDiv);
+          
+          container.appendChild(contactMessageContainer); // Anexa o conteúdo ao container selecionado
+
+          rolarAteOFinal();
+      }, 3000); // 3000 milissegundos = inserir após 3 segundos
+
+
+      setTimeout(function() {
+          var container = document.querySelector(".container"); // Seleciona a div com a classe "container"
+          
+          var contactMessageContainer = document.createElement("div");
+          contactMessageContainer.className = "contact-message-container";
+          
+          var messageDiv = document.createElement("div");
+          messageDiv.className = "contact-message";
+          messageDiv.textContent = "Então bb, Se você puder cuidar de mim com 27 reais vai estar me ajudando a pagar minha faculdade, e em troca eu te mando muitas fotinhas e videos meus, e ainda vou te passar meu numero particular, quando estiver pensando em mim podemos marcar uma chamadinha de vídeo bem gostosa só pra você.";
+          
+          var timeSpan = document.createElement("span");
+          timeSpan.className = "contact-message-time";
+          
+          messageDiv.appendChild(timeSpan);
+          contactMessageContainer.appendChild(messageDiv);
+          
+          container.appendChild(contactMessageContainer); // Anexa o conteúdo ao container selecionado
+
+          rolarAteOFinal();
+      }, 4000); // 4000 milissegundos = inserir após 4 segundos
+
+
+      setTimeout(function() {
+          var container = document.querySelector(".container"); // Seleciona a div com a classe "container"
+          
+          var contactMessageContainer = document.createElement("div");
+          contactMessageContainer.className = "contact-message-container";
+          
+          var messageDiv = document.createElement("div");
+          messageDiv.className = "contact-message";
+          messageDiv.textContent = "Tem muitos vídeos molhadinhos para você ver, eu mostrando a pepeka, brincando com vibrador, mostrando a buceta escondida na academia, certeza que vc vai gostar 🤩";
+          
+          var timeSpan = document.createElement("span");
+          timeSpan.className = "contact-message-time";
+          
+          messageDiv.appendChild(timeSpan);
+          contactMessageContainer.appendChild(messageDiv);
+          
+          container.appendChild(contactMessageContainer); // Anexa o conteúdo ao container selecionado
+
+          rolarAteOFinal();
+      }, 5000); // 5000 milissegundos = inserir após 5 segundos
+
+
+      setTimeout(function() {
+          var container = document.querySelector(".container"); // Seleciona a div com a classe "container"
+          
+          var imageContainer = document.createElement("div");
+          imageContainer.className = "contact-image-message";
+          
+          var balloonDiv = document.createElement("div");
+          balloonDiv.className = "contact-balloon";
+          
+          var imageElement = document.createElement("img");
+          imageElement.src = "img02.png";
+          
+          var timeSpan = document.createElement("span");
+          timeSpan.className = "contact-message-time";
+          
+          balloonDiv.appendChild(imageElement);
+          balloonDiv.appendChild(timeSpan);
+          
+          imageContainer.appendChild(balloonDiv);
+          
+          container.appendChild(imageContainer); // Anexa o conteúdo ao container selecionado
+
+          rolarAteOFinal();
+      }, 7000); // 7000 milissegundos = inserir após 7 segundos
+
+
+
+      setTimeout(function() {
+          var container = document.querySelector(".container"); // Seleciona a div com a classe "container"
+          
+          var contactMessageContainer = document.createElement("div");
+          contactMessageContainer.className = "contact-message-container";
+          
+          var messageDiv = document.createElement("div");
+          messageDiv.className = "contact-message";
+          messageDiv.textContent = "e não se preocupe, na fatura do cartão ou no pix vem escrito como compra de supermercado, assim mantemos o nosso segredo🤭";
+          
+          var timeSpan = document.createElement("span");
+          timeSpan.className = "contact-message-time";
+          
+          messageDiv.appendChild(timeSpan);
+          contactMessageContainer.appendChild(messageDiv);
+          
+          container.appendChild(contactMessageContainer); // Anexa o conteúdo ao container selecionado
+
+          rolarAteOFinal();
+      }, 8000); // 8000 milissegundos = inserir após 8 segundos
+
+
+
+      setTimeout(function() {
+          var container = document.querySelector(".container"); // Seleciona a div com a classe "container"
+          
+          var contactAudioContainer = document.createElement("div");
+          contactAudioContainer.className = "contact-audio-container";
+          
+          var messageDiv = document.createElement("div");
+          messageDiv.className = "contact-audio-message";
+          
+          var audioContainer = document.createElement("div");
+          audioContainer.className = "audio-container";
+          
+          var audioElement = document.createElement("audio");
+          audioElement.src = "chat03.mp3";
+          audioElement.controls = true;
+          audioElement.controlslist = "nodownload nofullscreen";
+          audioElement.preload = "metadata";
+          
+          var photoDiv = document.createElement("div");
+          photoDiv.className = "contact-photo";
+          photoDiv.style.marginRight = "0px";
+          photoDiv.style.width = "50px";
+          photoDiv.style.height = "50px";
+          
+          audioContainer.appendChild(audioElement);
+          audioContainer.appendChild(photoDiv);
+          
+          var timeSpan = document.createElement("span");
+          timeSpan.className = "contact-message-time";
+          
+          messageDiv.appendChild(audioContainer);
+          messageDiv.appendChild(timeSpan);
+          
+          contactAudioContainer.appendChild(messageDiv);
+          
+          container.appendChild(contactAudioContainer); // Anexa o conteúdo ao container selecionado
+
+          rolarAteOFinal();
+      }, 9000); // 9000 milissegundos = inserir após 9 segundos
+
+
+      
+
+      setTimeout(function() {
+          var containerDiv = document.querySelector('.container');
+
+          var messageContainer = document.createElement("div");
+          messageContainer.className = "contact-message-container";
+          
+          var linkBalloonDiv = document.createElement("div");
+          linkBalloonDiv.className = "contact-link-balloon";
+          
+          var linkElement = document.createElement("a");
+          linkElement.href = "https://produtosavador.com.br";
+          
+          var linkImage = document.createElement("img");
+          linkImage.src = "preview01.png";
+          
+          var linkTextSpan = document.createElement("span");
+          linkTextSpan.className = "contact-link-text";
+          linkTextSpan.textContent = "👉CLIQUE AQUI bb e vem gozar gostoso comigo🍑🍆💦";
+
+          var lineBreak = document.createElement("br");
+          
+          linkElement.appendChild(linkImage);
+          linkElement.appendChild(linkTextSpan);
+          
+          linkBalloonDiv.appendChild(linkElement);        
+          messageContainer.appendChild(linkBalloonDiv);
+
+          containerDiv.appendChild(messageContainer);
+      }, 10000); // 10000 milissegundos = inserir após 10 segundos
+
+    }
+
+  </script>
 
   <script>
     // BOTÃO 01
@@ -556,7 +1351,7 @@
 
     function botao01() {
 
-      seguirBotao01();
+      
 
       var rightButton = document.getElementById('right-button');
       rightButton.style.display = 'none';
@@ -580,6 +1375,8 @@
       balaoUsuario.appendChild(checkIcon);
       userMessageContainer.appendChild(balaoUsuario);
       container.appendChild(userMessageContainer);
+
+      fluxoBotao01();
     }
   </script>
   <script>
@@ -663,7 +1460,7 @@
 
       var balaoUsuario = document.createElement('div');
       balaoUsuario.className = 'user-message';
-      balaoUsuario.innerText = 'Delícia!🤤 Mostra mais...';
+      balaoUsuario.innerText = 'Delíciosa!🤤';
       var messageTime = document.createElement('span');
       messageTime.className = 'message-time';
       var currentDateTime = new Date();
@@ -836,6 +1633,27 @@
       mamando();
     }
 
+  </script>
+  <script>
+    // BOTÃO 06
+    var userMessages = document.getElementsByClassName('user-message');
+    var contactMessages = document.getElementsByClassName('contact-message');
+    var contactAudioMessages = document.getElementsByClassName('contact-audio-message');
+    var currentDateTime = new Date();
+    var currentTimeString = currentDateTime.getHours() + ':' + ('0' + currentDateTime.getMinutes()).slice(-2);
+
+    for (var i = 0; i < userMessages.length; i++) {
+        userMessages[i].querySelector('.message-time').innerText = currentTimeString;
+    }
+
+    for (var i = 0; i < contactMessages.length; i++) {
+        contactMessages[i].querySelector('.contact-message-time').innerText = currentTimeString;
+    }
+
+    for (var i = 0; i < contactAudioMessages.length; i++) {
+        contactAudioMessages[i].querySelector('.contact-message-time').innerText = currentTimeString;
+    }
+
     function botao06() {
       var rightButton6 = document.getElementById('right-button6');
       rightButton6.style.display = 'none';
@@ -846,7 +1664,7 @@
 
       var balaoUsuario = document.createElement('div');
       balaoUsuario.className = 'user-message';
-      balaoUsuario.innerText = 'Me mostra mais';
+      balaoUsuario.innerText = 'Sim. Me mostra mais...';
       var messageTime = document.createElement('span');
       messageTime.className = 'message-time';
       var currentDateTime = new Date();
@@ -860,333 +1678,62 @@
       userMessageContainer.appendChild(balaoUsuario);
       container.appendChild(userMessageContainer);
 
+      seguirBotao05();
+
     }
   </script>
-
+  
   <script>
-    function seguirBotao01() {
-      console.log("Aqui");
-      exibirDigitando();
+    // BOTÃO 07
+    var userMessages = document.getElementsByClassName('user-message');
+    var contactMessages = document.getElementsByClassName('contact-message');
+    var contactAudioMessages = document.getElementsByClassName('contact-audio-message');
+    var currentDateTime = new Date();
+    var currentTimeString = currentDateTime.getHours() + ':' + ('0' + currentDateTime.getMinutes()).slice(-2);
 
-      setTimeout(
-        function() {
-
-
-        var container = document.createElement("div");
-        container.className = "contact-message-container";
-        
-        var messageDiv = document.createElement("div");
-        messageDiv.className = "contact-message";
-        messageDiv.textContent = "Ahhh safadinho 🥰";
-        
-        var timeSpan = document.createElement("span");
-        timeSpan.className = "contact-message-time";
-        
-        messageDiv.appendChild(timeSpan);
-        container.appendChild(messageDiv);
-        
-        document.body.appendChild(container);
-
-
-        rolarAteOFinal();
-      }, 3000); // 3000 milissegundos = 3 segundos
-
-      setTimeout(function() {
-        var container = document.createElement("div");
-        container.className = "contact-audio-container";
-        
-        var messageDiv = document.createElement("div");
-        messageDiv.className = "contact-audio-message";
-        
-        var audioContainer = document.createElement("div");
-        audioContainer.className = "audio-container";
-        
-        var audioElement = document.createElement("audio");
-        audioElement.src = "chat02.mp3";
-        audioElement.controls = true;
-        audioElement.controlslist = "nodownload nofullscreen";
-        audioElement.preload = "metadata";
-        
-        var photoDiv = document.createElement("div");
-        photoDiv.className = "contact-photo";
-        photoDiv.style.marginRight = "0px";
-        photoDiv.style.width = "50px";
-        photoDiv.style.height = "50px";
-        
-        audioContainer.appendChild(audioElement);
-        audioContainer.appendChild(photoDiv);
-        
-        var timeSpan = document.createElement("span");
-        timeSpan.className = "contact-message-time";
-        
-        messageDiv.appendChild(audioContainer);
-        messageDiv.appendChild(timeSpan);
-        
-        container.appendChild(messageDiv);
-        
-        document.body.appendChild(container);
-
-        rolarAteOFinal();
-      }, 8000); // 4000 milissegundos = 4 segundos
-
-
-      setTimeout(function() {
-        var container = document.createElement("div");
-        container.className = "contact-message-container";
-        
-        var messageDiv = document.createElement("div");
-        messageDiv.className = "contact-message";
-        messageDiv.textContent = "Está sozinho aí? posso te mandar uma fotinha? 🔥";
-        
-        var timeSpan = document.createElement("span");
-        timeSpan.className = "contact-message-time";
-        
-        messageDiv.appendChild(timeSpan);
-        container.appendChild(messageDiv);
-        
-        document.body.appendChild(container);
-
-        rolarAteOFinal();
-      }, 24000); // 4000 milissegundos = 4 segundos
-
-
-      setTimeout(function() {
-        var container = document.createElement("div");
-        container.className = "right-button-container";
-        container.id = "right-button2";
-        
-        var button = document.createElement("button");
-        button.className = "right-button";
-        button.onclick = botao02;
-        button.textContent = "Estou sozinho 😈";
-        
-        var img = document.createElement("img");
-        img.src = "send.png";
-        img.alt = "Enviar";
-        
-        button.appendChild(img);
-        container.appendChild(button);
-        
-        document.body.appendChild(container);
-
-        rolarAteOFinal();
-      }, 25000); // 4000 milissegundos = 4 segundos
-
+    for (var i = 0; i < userMessages.length; i++) {
+        userMessages[i].querySelector('.message-time').innerText = currentTimeString;
     }
 
-    function seguirBotao02() {
-      setTimeout(function() {
-        var container = document.createElement("div");
-        container.className = "contact-message-container";
-        
-        var messageDiv = document.createElement("div");
-        messageDiv.className = "contact-message";
-        messageDiv.textContent = "Espera aí bb, vou tirar... Mas não compartilha em grupo hein..";
-        
-        var timeSpan = document.createElement("span");
-        timeSpan.className = "contact-message-time";
-        
-        messageDiv.appendChild(timeSpan);
-        container.appendChild(messageDiv);
-        
-        document.body.appendChild(container);
-
-        rolarAteOFinal();
-      }, 3000); // 3000 milissegundos = 3 segundos
-
-
-      setTimeout(function() {
-        var imageContainer = document.createElement("div");
-        imageContainer.className = "contact-image-message";
-        
-        var balloonDiv = document.createElement("div");
-        balloonDiv.className = "contact-balloon";
-        
-        var imageElement = document.createElement("img");
-        imageElement.src = "img01.png";
-        
-        var timeSpan = document.createElement("span");
-        timeSpan.className = "contact-message-time";
-        
-        balloonDiv.appendChild(imageElement);
-        balloonDiv.appendChild(timeSpan);
-        
-        imageContainer.appendChild(balloonDiv);
-        
-        document.body.appendChild(imageContainer);
-
-        rolarAteOFinal();
-      }, 9000); // 5000 milissegundos = 5 segundos
-
-
-      setTimeout(function() {
-        var container = document.createElement("div");
-        container.className = "contact-message-container";
-        
-        var messageDiv = document.createElement("div");
-        messageDiv.className = "contact-message";
-        messageDiv.textContent = "Gostou de mim? 😍";
-        
-        var timeSpan = document.createElement("span");
-        timeSpan.className = "contact-message-time";
-        
-        messageDiv.appendChild(timeSpan);
-        container.appendChild(messageDiv);
-        
-        document.body.appendChild(container);
-
-        rolarAteOFinal();
-      }, 12000); // 0 milissegundos = inserir imediatamente
-
-
-      setTimeout(function() {
-        var container = document.createElement("div");
-        container.className = "right-button-container";
-        container.id = "right-button-esquecido";
-        
-        var button = document.createElement("button");
-        button.className = "right-button";
-        button.onclick = botaoEsquecido;
-        button.textContent = "Delícia!🤤 Mostra mais...";
-        
-        var img = document.createElement("img");
-        img.src = "send.png";
-        img.alt = "Enviar";
-        
-        button.appendChild(img);
-        container.appendChild(button);
-        
-        document.body.appendChild(container);
-
-        rolarAteOFinal();
-      }, 13000); // 0 milissegundos = inserir imediatamente
+    for (var i = 0; i < contactMessages.length; i++) {
+        contactMessages[i].querySelector('.contact-message-time').innerText = currentTimeString;
     }
 
-    function seguirBotao03(){
-
-      setTimeout(function() {
-        var container = document.createElement("div");
-        container.className = "contact-message-container";
-        
-        var messageDiv = document.createElement("div");
-        messageDiv.className = "contact-message";
-        messageDiv.textContent = "rsrsrs saf4do. Já deve estar de p4u dur0 né? Se vc estivesse aqui cmg ganharia uma mamad4 inesquecível🍆💦";
-        
-        var timeSpan = document.createElement("span");
-        timeSpan.className = "contact-message-time";
-        
-        messageDiv.appendChild(timeSpan);
-        container.appendChild(messageDiv);
-        
-        document.body.appendChild(container);
-
-        rolarAteOFinal();
-      }, 3000); // 0 milissegundos = inserir imediatamente
-
-
-      setTimeout(function() {
-        var container = document.createElement("div");
-        container.className = "contact-message-container";
-        
-        var messageDiv = document.createElement("div");
-        messageDiv.className = "contact-message";
-        messageDiv.textContent = "Vou te enviar o presentinho que prometi. Mas é só um. De qual jeitinho vc quer me ver?";
-        
-        var timeSpan = document.createElement("span");
-        timeSpan.className = "contact-message-time";
-        
-        messageDiv.appendChild(timeSpan);
-        container.appendChild(messageDiv);
-        
-        document.body.appendChild(container);
-
-        rolarAteOFinal();
-      }, 6000); // 0 milissegundos = inserir imediatamente
-
-      // INSERINDO OS 3 BOTÕES
-      setTimeout(function() {
-        // Criação do primeiro botão
-        var container1 = document.createElement("div");
-        container1.className = "right-button-container";
-        container1.id = "right-button3";
-        
-        var button1 = document.createElement("button");
-        button1.className = "right-button";
-        button1.onclick = botao03;
-        button1.textContent = "Dando gost0so";
-        
-        var img1 = document.createElement("img");
-        img1.src = "send.png";
-        img1.alt = "Enviar";
-        
-        button1.appendChild(img1);
-        container1.appendChild(button1);
-        
-        // Criação do segundo botão
-        var container2 = document.createElement("div");
-        container2.className = "right-button-container";
-        container2.id = "right-button4";
-        
-        var button2 = document.createElement("button");
-        button2.className = "right-button";
-        button2.onclick = botao04;
-        button2.textContent = "Se masturb4ando";
-        
-        var img2 = document.createElement("img");
-        img2.src = "send.png";
-        img2.alt = "Enviar";
-        
-        button2.appendChild(img2);
-        container2.appendChild(button2);
-        
-        // Criação do terceiro botão
-        var container3 = document.createElement("div");
-        container3.className = "right-button-container";
-        container3.id = "right-button5";
-        
-        var button3 = document.createElement("button");
-        button3.className = "right-button";
-        button3.onclick = botao05;
-        button3.textContent = "Mam4ndo até o talo";
-        
-        var img3 = document.createElement("img");
-        img3.src = "send.png";
-        img3.alt = "Enviar";
-        
-        button3.appendChild(img3);
-        container3.appendChild(button3);
-        
-        // Inserção dos containers no corpo da página
-        document.body.appendChild(container1);
-        document.body.appendChild(container2);
-        document.body.appendChild(container3);
-      }, 8000); // 0 milissegundos = inserir imediatamente
+    for (var i = 0; i < contactAudioMessages.length; i++) {
+        contactAudioMessages[i].querySelector('.contact-message-time').innerText = currentTimeString;
     }
 
-    function seguirBotao04(){
+    function botao07() {
+      var rightButton7 = document.getElementById('right-button7');
+      rightButton7.style.display = 'none';
 
-      setTimeout(function() {
-        var container = document.createElement("div");
-        container.className = "contact-message-container";
-        
-        var messageDiv = document.createElement("div");
-        messageDiv.className = "contact-message";
-        messageDiv.textContent = "Ficou com vontade de me comer?";
-        
-        var timeSpan = document.createElement("span");
-        timeSpan.className = "contact-message-time";
-        
-        messageDiv.appendChild(timeSpan);
-        container.appendChild(messageDiv);
-        
-        document.body.appendChild(container);
+      var container = document.getElementsByClassName('container')[0];
+      var userMessageContainer = document.createElement('div');
+      userMessageContainer.className = 'user-message-container';
 
-        rolarAteOFinal();
-      }, 10000); // 0 milissegundos = inserir imediatamente
+      var balaoUsuario = document.createElement('div');
+      balaoUsuario.className = 'user-message';
+      balaoUsuario.innerText = 'Lógico!😈';
+      var messageTime = document.createElement('span');
+      messageTime.className = 'message-time';
+      var currentDateTime = new Date();
+      var currentTimeString = currentDateTime.getHours() + ':' + ('0' + currentDateTime.getMinutes()).slice(-2);
+      messageTime.innerText = currentTimeString;
+      var checkIcon = document.createElement('span');
+      checkIcon.className = 'check-icon';
+
+      balaoUsuario.appendChild(messageTime);
+      balaoUsuario.appendChild(checkIcon);
+      userMessageContainer.appendChild(balaoUsuario);
+      container.appendChild(userMessageContainer);
+
+      seguirBotao06();
 
     }
-
+    
   </script>
+
+
   <script>
     // Esse script é chamado quando o usuario escolhe qual vídeo ele quer assistir.
 
@@ -1196,8 +1743,10 @@
 
         //Balão de OK vou enviar
         setTimeout(function() {
-          var container = document.createElement("div");
-          container.className = "contact-message-container";
+          var container = document.querySelector(".container"); // Seleciona a div com a classe "container"
+          
+          var contactMessageContainer = document.createElement("div");
+          contactMessageContainer.className = "contact-message-container";
           
           var messageDiv = document.createElement("div");
           messageDiv.className = "contact-message";
@@ -1207,18 +1756,21 @@
           timeSpan.className = "contact-message-time";
           
           messageDiv.appendChild(timeSpan);
-          container.appendChild(messageDiv);
+          contactMessageContainer.appendChild(messageDiv);
           
-          document.body.appendChild(container);
+          container.appendChild(contactMessageContainer); // Anexa o conteúdo ao container selecionado
 
           rolarAteOFinal();
           exibirDigitando();
-        }, 2000); // 0 milissegundos = inserir imediatamente
+      }, 2000); // 2000 milissegundos = inserir após 2 segundos
+
 
 
         setTimeout(function() {
-          var container = document.createElement("div");
-          container.className = "contact-video-message";
+          var containerDiv = document.querySelector('.container');
+
+          var videoContainer = document.createElement("div");
+          videoContainer.className = "contact-video-message";
           
           var balloonDiv = document.createElement("div");
           balloonDiv.className = "contact-balloon";
@@ -1259,16 +1811,19 @@
           videoScript.id = "scr_63f6c7db930052000bb73c3f";
           videoScript.innerHTML = 'var s=document.createElement("script");s.src="https://scripts.converteai.net/cbcea761-4024-48ee-b94c-332740b304c5/players/63f6c7db930052000bb73c3f/player.js",s.async=!0,document.head.appendChild(s);';
           
-          container.appendChild(balloonDiv);
-          container.appendChild(videoDiv);
-          container.appendChild(videoScript);
-          
-          document.body.appendChild(container);
+          videoContainer.appendChild(balloonDiv);
+          videoContainer.appendChild(videoDiv);
+          videoContainer.appendChild(videoScript);
+
+          containerDiv.appendChild(videoContainer);
 
           rolarAteOFinal();
           seguirBotao04();
-        }, 6000); // 3000 milissegundos = 3 segundos
-    }
+      }, 3000); // 3000 milissegundos = inserir após 3 segundos
+
+
+  }
+
 
     // VÍDEO Masturb - Botão04
     function masturb() {
@@ -1276,8 +1831,10 @@
 
         //Balão de OK vou enviar
         setTimeout(function() {
-          var container = document.createElement("div");
-          container.className = "contact-message-container";
+          var container = document.querySelector(".container"); // Seleciona a div com a classe "container"
+          
+          var contactMessageContainer = document.createElement("div");
+          contactMessageContainer.className = "contact-message-container";
           
           var messageDiv = document.createElement("div");
           messageDiv.className = "contact-message";
@@ -1287,66 +1844,70 @@
           timeSpan.className = "contact-message-time";
           
           messageDiv.appendChild(timeSpan);
-          container.appendChild(messageDiv);
+          contactMessageContainer.appendChild(messageDiv);
           
-          document.body.appendChild(container);
+          container.appendChild(contactMessageContainer); // Anexa o conteúdo ao container selecionado
 
           rolarAteOFinal();
           exibirDigitando();
-        }, 2000); // 0 milissegundos = inserir imediatamente
+      }, 2000); // 2000 milissegundos = inserir após 2 segundos
 
-        setTimeout(function() {
-          var container = document.createElement("div");
-          container.className = "contact-video-message";
-          
-          var balloonDiv = document.createElement("div");
-          balloonDiv.className = "contact-balloon";
-          
-          var videoDiv = document.createElement("div");
-          videoDiv.id = "vid_63f6c7db930052000bb73c3f";
-          videoDiv.style.borderRadius = "10px";
-          videoDiv.style.position = "relative";
-          videoDiv.style.width = "100%";
-          videoDiv.style.padding = "125% 0 0";
-          videoDiv.style.left = "-9px";
-          
-          var videoThumbnail = document.createElement("img");
-          videoThumbnail.id = "thumb_63f6c7db930052000bb73c3f";
-          videoThumbnail.src = "https://images.converteai.net/cbcea761-4024-48ee-b94c-332740b304c5/players/63f6c7db930052000bb73c3f/thumbnail.jpg";
-          videoThumbnail.style.position = "absolute";
-          videoThumbnail.style.top = "0";
-          videoThumbnail.style.left = "0";
-          videoThumbnail.style.width = "100%";
-          videoThumbnail.style.height = "100%";
-          videoThumbnail.style.objectFit = "cover";
-          videoThumbnail.style.display = "block";
-          
-          var videoBackdrop = document.createElement("div");
-          videoBackdrop.id = "backdrop_63f6c7db930052000bb73c3f";
-          videoBackdrop.style.position = "absolute";
-          videoBackdrop.style.top = "0";
-          videoBackdrop.style.width = "100%";
-          videoBackdrop.style.height = "100%";
-          videoBackdrop.style.webkitBackdropFilter = "blur(5px)";
-          videoBackdrop.style.backdropFilter = "blur(5px)";
-          
-          videoDiv.appendChild(videoThumbnail);
-          videoDiv.appendChild(videoBackdrop);
-          
-          var videoScript = document.createElement("script");
-          videoScript.type = "text/javascript";
-          videoScript.id = "scr_63f6c7db930052000bb73c3f";
-          videoScript.innerHTML = 'var s=document.createElement("script");s.src="https://scripts.converteai.net/cbcea761-4024-48ee-b94c-332740b304c5/players/63f6c7db930052000bb73c3f/player.js",s.async=!0,document.head.appendChild(s);';
-          
-          container.appendChild(balloonDiv);
-          container.appendChild(videoDiv);
-          container.appendChild(videoScript);
-          
-          document.body.appendChild(container);
 
-          rolarAteOFinal();
-        }, 6000); // 3000 milissegundos = 3 segundos
-    }
+    setTimeout(function() {
+        var container = document.querySelector(".container"); // Seleciona a div com a classe "container"
+        
+        var contactVideoMessage = document.createElement("div");
+        contactVideoMessage.className = "contact-video-message";
+        
+        var balloonDiv = document.createElement("div");
+        balloonDiv.className = "contact-balloon";
+        
+        var videoDiv = document.createElement("div");
+        videoDiv.id = "vid_63f6c7db930052000bb73c3f";
+        videoDiv.style.borderRadius = "10px";
+        videoDiv.style.position = "relative";
+        videoDiv.style.width = "100%";
+        videoDiv.style.padding = "125% 0 0";
+        videoDiv.style.left = "-9px";
+        
+        var videoThumbnail = document.createElement("img");
+        videoThumbnail.id = "thumb_63f6c7db930052000bb73c3f";
+        videoThumbnail.src = "https://images.converteai.net/cbcea761-4024-48ee-b94c-332740b304c5/players/63f6c7db930052000bb73c3f/thumbnail.jpg";
+        videoThumbnail.style.position = "absolute";
+        videoThumbnail.style.top = "0";
+        videoThumbnail.style.left = "0";
+        videoThumbnail.style.width = "100%";
+        videoThumbnail.style.height = "100%";
+        videoThumbnail.style.objectFit = "cover";
+        videoThumbnail.style.display = "block";
+        
+        var videoBackdrop = document.createElement("div");
+        videoBackdrop.id = "backdrop_63f6c7db930052000bb73c3f";
+        videoBackdrop.style.position = "absolute";
+        videoBackdrop.style.top = "0";
+        videoBackdrop.style.width = "100%";
+        videoBackdrop.style.height = "100%";
+        videoBackdrop.style.webkitBackdropFilter = "blur(5px)";
+        videoBackdrop.style.backdropFilter = "blur(5px)";
+        
+        videoDiv.appendChild(videoThumbnail);
+        videoDiv.appendChild(videoBackdrop);
+        
+        var videoScript = document.createElement("script");
+        videoScript.type = "text/javascript";
+        videoScript.id = "scr_63f6c7db930052000bb73c3f";
+        videoScript.innerHTML = 'var s=document.createElement("script");s.src="https://scripts.converteai.net/cbcea761-4024-48ee-b94c-332740b304c5/players/63f6c7db930052000bb73c3f/player.js",s.async=!0,document.head.appendChild(s);';
+        
+        contactVideoMessage.appendChild(balloonDiv);
+        contactVideoMessage.appendChild(videoDiv);
+        contactVideoMessage.appendChild(videoScript);
+        
+        container.appendChild(contactVideoMessage); // Anexa o conteúdo ao container selecionado
+
+        rolarAteOFinal();
+        seguirBotao04();
+    }, 3000); // 3000 milissegundos = inserir após 3 segundos
+  }
 
     // VÍDEO MAMADA - Botão05
     function mamando() {
@@ -1354,90 +1915,115 @@
 
         //Balão de OK vou enviar
         setTimeout(function() {
-          var container = document.createElement("div");
-          container.className = "contact-message-container";
-          
-          var messageDiv = document.createElement("div");
-          messageDiv.className = "contact-message";
-          messageDiv.textContent = "Ta bom. Vou te mandar 🍑";
-          
-          var timeSpan = document.createElement("span");
-          timeSpan.className = "contact-message-time";
-          
-          messageDiv.appendChild(timeSpan);
-          container.appendChild(messageDiv);
-          
-          document.body.appendChild(container);
+    var container = document.querySelector(".container"); // Seleciona a div com a classe "container"
+    
+    var contactMessageContainer = document.createElement("div");
+    contactMessageContainer.className = "contact-message-container";
+    
+    var messageDiv = document.createElement("div");
+    messageDiv.className = "contact-message";
+    messageDiv.textContent = "Ta bom. Vou te mandar 🍑";
+    
+    var timeSpan = document.createElement("span");
+    timeSpan.className = "contact-message-time";
+    
+    messageDiv.appendChild(timeSpan);
+    contactMessageContainer.appendChild(messageDiv);
+    
+    container.appendChild(contactMessageContainer); // Anexa o conteúdo ao container selecionado
 
-          rolarAteOFinal();
-          exibirDigitando()
-        }, 2000); // 0 milissegundos = inserir imediatamente
+    rolarAteOFinal();
+    exibirDigitando();
+}, 2000); // 2000 milissegundos = inserir após 2 segundos
+
 
 
         setTimeout(function() {
-          var container = document.createElement("div");
-          container.className = "contact-video-message";
-          
-          var balloonDiv = document.createElement("div");
-          balloonDiv.className = "contact-balloon";
-          
-          var videoDiv = document.createElement("div");
-          videoDiv.id = "vid_63f6c7db930052000bb73c3f";
-          videoDiv.style.borderRadius = "10px";
-          videoDiv.style.position = "relative";
-          videoDiv.style.width = "100%";
-          videoDiv.style.padding = "125% 0 0";
-          videoDiv.style.left = "-9px";
-          
-          var videoThumbnail = document.createElement("img");
-          videoThumbnail.id = "thumb_63f6c7db930052000bb73c3f";
-          videoThumbnail.src = "https://images.converteai.net/cbcea761-4024-48ee-b94c-332740b304c5/players/63f6c7db930052000bb73c3f/thumbnail.jpg";
-          videoThumbnail.style.position = "absolute";
-          videoThumbnail.style.top = "0";
-          videoThumbnail.style.left = "0";
-          videoThumbnail.style.width = "100%";
-          videoThumbnail.style.height = "100%";
-          videoThumbnail.style.objectFit = "cover";
-          videoThumbnail.style.display = "block";
-          
-          var videoBackdrop = document.createElement("div");
-          videoBackdrop.id = "backdrop_63f6c7db930052000bb73c3f";
-          videoBackdrop.style.position = "absolute";
-          videoBackdrop.style.top = "0";
-          videoBackdrop.style.width = "100%";
-          videoBackdrop.style.height = "100%";
-          videoBackdrop.style.webkitBackdropFilter = "blur(5px)";
-          videoBackdrop.style.backdropFilter = "blur(5px)";
-          
-          videoDiv.appendChild(videoThumbnail);
-          videoDiv.appendChild(videoBackdrop);
-          
-          var videoScript = document.createElement("script");
-          videoScript.type = "text/javascript";
-          videoScript.id = "scr_63f6c7db930052000bb73c3f";
-          videoScript.innerHTML = 'var s=document.createElement("script");s.src="https://scripts.converteai.net/cbcea761-4024-48ee-b94c-332740b304c5/players/63f6c7db930052000bb73c3f/player.js",s.async=!0,document.head.appendChild(s);';
-          
-          container.appendChild(balloonDiv);
-          container.appendChild(videoDiv);
-          container.appendChild(videoScript);
-          
-          document.body.appendChild(container);
+            var container = document.querySelector(".container"); // Seleciona a div com a classe "container"
+            
+            var contactVideoMessage = document.createElement("div");
+            contactVideoMessage.className = "contact-video-message";
+            
+            var balloonDiv = document.createElement("div");
+            balloonDiv.className = "contact-balloon";
+            
+            var videoDiv = document.createElement("div");
+            videoDiv.id = "vid_63f6c7db930052000bb73c3f";
+            videoDiv.style.borderRadius = "10px";
+            videoDiv.style.position = "relative";
+            videoDiv.style.width = "100%";
+            videoDiv.style.padding = "125% 0 0";
+            videoDiv.style.left = "-9px";
+            
+            var videoThumbnail = document.createElement("img");
+            videoThumbnail.id = "thumb_63f6c7db930052000bb73c3f";
+            videoThumbnail.src = "https://images.converteai.net/cbcea761-4024-48ee-b94c-332740b304c5/players/63f6c7db930052000bb73c3f/thumbnail.jpg";
+            videoThumbnail.style.position = "absolute";
+            videoThumbnail.style.top = "0";
+            videoThumbnail.style.left = "0";
+            videoThumbnail.style.width = "100%";
+            videoThumbnail.style.height = "100%";
+            videoThumbnail.style.objectFit = "cover";
+            videoThumbnail.style.display = "block";
+            
+            var videoBackdrop = document.createElement("div");
+            videoBackdrop.id = "backdrop_63f6c7db930052000bb73c3f";
+            videoBackdrop.style.position = "absolute";
+            videoBackdrop.style.top = "0";
+            videoBackdrop.style.width = "100%";
+            videoBackdrop.style.height = "100%";
+            videoBackdrop.style.webkitBackdropFilter = "blur(5px)";
+            videoBackdrop.style.backdropFilter = "blur(5px)";
+            
+            videoDiv.appendChild(videoThumbnail);
+            videoDiv.appendChild(videoBackdrop);
+            
+            var videoScript = document.createElement("script");
+            videoScript.type = "text/javascript";
+            videoScript.id = "scr_63f6c7db930052000bb73c3f";
+            videoScript.innerHTML = 'var s=document.createElement("script");s.src="https://scripts.converteai.net/cbcea761-4024-48ee-b94c-332740b304c5/players/63f6c7db930052000bb73c3f/player.js",s.async=!0,document.head.appendChild(s);';
+            
+            contactVideoMessage.appendChild(balloonDiv);
+            contactVideoMessage.appendChild(videoDiv);
+            contactVideoMessage.appendChild(videoScript);
+            
+            container.appendChild(contactVideoMessage); // Anexa o conteúdo ao container selecionado
 
-          rolarAteOFinal();
-        }, 6000); // 3000 milissegundos = 3 segundos
+            rolarAteOFinal();
+            seguirBotao04();
+        }, 6000); // 6000 milissegundos = inserir após 6 segundos
+
     }
   </script>
 
   <script>
     function exibirDigitando() {
-      var onlineIndicator = document.querySelector('.online-indicator');
-      onlineIndicator.innerText = 'digitando...';
-
       setTimeout(function() {
-        onlineIndicator.innerText = 'Online';
-      }, 3000);
+        var onlineIndicator = document.querySelector('.online-indicator');
+        onlineIndicator.innerText = 'digitando...';
+
+        setTimeout(function() {
+          onlineIndicator.innerText = 'Online';
+          
+        }, 3000); // Mostrar "digitando..." por 3 segundos
+      }, 2000); // Atraso de 2 segundos antes de executar o código
     }
   </script>
+
+  <script>
+    function exibirGravandoAudio() {
+      setTimeout(function() {
+        var onlineIndicator = document.querySelector('.online-indicator');
+        onlineIndicator.innerText = 'gravando áudio...';
+
+        setTimeout(function() {
+          onlineIndicator.innerText = 'Online';
+          
+        }, 3000); // Mostrar "digitando..." por 3 segundos
+      }, 1000); // Atraso de 2 segundos antes de executar o código
+    }
+  </script>
+
   <script>
     function rolarAteOFinal() {
       var alturaTotal = document.body.scrollHeight;
@@ -1446,6 +2032,49 @@
         behavior: "smooth"
       });
     }
+  </script>
+
+  <script>
+  //script do popup da foto de perfil  
+  document.addEventListener('DOMContentLoaded', function() {
+      const profilePhoto = document.getElementById('profile-photo');
+      const popup = document.getElementById('popup');
+      const enlargedPhoto = document.getElementById('enlarged-photo');
+      const closeBtn = document.getElementById('close-btn');
+
+      profilePhoto.addEventListener('click', function() {
+          openPopup();
+      });
+
+      closeBtn.addEventListener('click', function() {
+          closePopup();
+      });
+
+      window.addEventListener('popstate', function(event) {
+          if (popup.style.display === 'flex') {
+              closePopup();
+              event.preventDefault(); // Prevent default behavior (going back to previous page)
+          }
+      });
+
+      function openPopup() {
+          popup.style.display = 'flex';
+          history.pushState({ popupOpen: true }, null, ''); // Add a history state for the popup
+      }
+
+      function closePopup() {
+          popup.style.display = 'none';
+          history.back(); // Go back in history (close the popup)
+      }
+
+      // Handle the back button in Android
+      window.addEventListener('hashchange', function() {
+          if (popup.style.display === 'flex' && window.location.hash !== '#popup') {
+              closePopup();
+          }
+      });
+  });
+
   </script>
 
 
